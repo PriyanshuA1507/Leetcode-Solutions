@@ -27,7 +27,7 @@ public:
             }
         }
 
-        int start = maxWeight;
+        int start = 0;
         int end = sum;
         int answer = -1;
 
