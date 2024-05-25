@@ -3,7 +3,7 @@ public:
     bool ispossible(vector<int>& price, int k,int mid){
         int cc =1;
         int lastpos = price[0];
-        for(int i=1;i<price.size();i++){
+        for(int i=0;i<price.size();i++){
             if(price[i]-lastpos>=mid){
                 cc++;
                 if(cc==k){
@@ -17,8 +17,11 @@ public:
     int maximumTastiness(vector<int>& price, int k) {
         sort(price.begin(),price.end());
         int s = 1;
-        int n = price.size();
-        int e = price[n-1]-price[0];
+        int maxi = -1;
+        for(int i=0;i<price.size();i++){
+            maxi = max(maxi,price[i]);
+        }
+        int e = maxi;
         int ans =0;
         int mid = e + (e-s)/2;
         while(s<=e){
