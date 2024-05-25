@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool ip(vector<int>& position, int m, int mid) {
-        int mc = 1; // count of markers placed
+        int mc = 1; 
         int lastpos = position[0];
         
         for (int i = 1; i < position.size(); i++) {
@@ -20,7 +20,7 @@ public:
         sort(position.begin(), position.end());
         int n = position.size();
         int s = 0;
-        int e = position[n-1] - position[0]; // maximum possible distance
+        int e = position[n-1] - position[0]; 
         int ans = 0;
         int mid;
         
