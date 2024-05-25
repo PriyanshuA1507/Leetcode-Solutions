@@ -12,7 +12,7 @@ public:
         }
         
         for (int i = 1; i <= s.size(); ++i) {
-            std::string prefix = s.substr(0, i);
+            string prefix = s.substr(0, i);
             if (wordExists(prefix, wordDict)) {
                 solverec(s.substr(i), wordDict, current + " " + prefix, ans);
             }
