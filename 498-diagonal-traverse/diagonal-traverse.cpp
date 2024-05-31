@@ -1,45 +1,47 @@
-#include <vector>
 
 class Solution {
 public:
     vector<int> findDiagonalOrder(vector<vector<int>>& mat) {
-        if (mat.empty()) return {};
-
-        int n = mat.size(), m = mat[0].size();
-        vector<int> ans;
-       
-
-        int i = 0, j = 0;
-        bool up = true;
-
-        while (ans.size() < n * m) {
-            ans.push_back(mat[i][j]);
-
-            if (up) {
-                if (j == m - 1) {
-                    i++;
-                    up = false;
-                } else if (i == 0) {
-                    j++;
-                    up = false;
-                } else {
-                    i--;
-                    j++;
-                }
-            } else {
-                if (i == n - 1) {
-                    j++;
-                    up = true;
-                } else if (j == 0) {
-                    i++;
-                    up = true;
-                } else {
-                    i++;
-                    j--;
-                }
-            }
-        }
-
-        return ans;
+   int m=mat.size(); 
+      int n=mat[0].size();
+      int row=0;
+      int col=0;
+      bool up=true;
+      //The above are some intilisations;
+      vector<int>result;
+      while(row<m and col<n){
+          if(up==true){
+              //when we are moving in the up direction
+              while(row>0 and col<n-1){
+               result.push_back(mat[row][col]);
+               row--;
+               col++;
+              }
+              result.push_back(mat[row][col]);
+              if(col==n-1){
+                  row++;
+              }
+              else{
+                  col++;
+              }
+          }
+         else{
+             //when we are moving in the down direction
+             while(col>0 and row<m-1){
+                 result.push_back(mat[row][col]);
+                 row++;
+                 col--;
+             }
+             result.push_back(mat[row][col]);
+             if(row==m-1){
+                 col++;
+             }
+             else{
+                 row++;
+             }
+         }
+         up=!up; //reversing the condition to move in alternate direction
+      }
+    return result;
     }
 };
