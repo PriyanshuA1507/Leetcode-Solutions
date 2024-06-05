@@ -1,17 +1,18 @@
 class Solution {
 public:
     vector<int> relocateMarbles(vector<int>& nums, vector<int>& mf, vector<int>& mt) {
-       set<int> positions(nums.begin(), nums.end());
-        
+       set<int> p;
+       for(int i=0;i<nums.size();i++){
+        p.insert(nums[i]);
+       }
         for (int i = 0; i < mf.size(); ++i) {
-            if (positions.find(mf[i]) != positions.end()) {
-                positions.erase(mf[i]);
-                positions.insert(mt[i]);
+            if (p.find(mf[i]) != p.end()) {
+                p.erase(mf[i]);
+                p.insert(mt[i]);
             }
         }
         
-        vector<int> result(positions.begin(), positions.end());
-        sort(result.begin(), result.end());
+        vector<int> result(p.begin(), p.end());
         
         return result;
     }
