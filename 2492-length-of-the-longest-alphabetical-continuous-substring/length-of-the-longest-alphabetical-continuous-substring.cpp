@@ -12,7 +12,7 @@ public:
             } else {
                 ans = max(count, ans);
                 count = 1;  
-                end++;
+               end++;
             }
         }
         ans = max(count, ans);  
