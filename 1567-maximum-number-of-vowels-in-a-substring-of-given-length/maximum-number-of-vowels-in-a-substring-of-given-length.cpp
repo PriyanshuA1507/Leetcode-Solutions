@@ -11,7 +11,7 @@ public:
             if(v.count(s[end])){
             cv++;
            }
-            if (end == start+k-1) {
+           if (end == start+k-1) {
             
                 ans = max(ans, cv);
                 if (v.count(s[start])) {
