@@ -4,7 +4,7 @@ public:
         string ans;
         unordered_map<string, int> m;
         
-        // Populate the unordered_map with dictionary words
+      
         for (int i = 0; i < d.size(); i++) {
             m[d[i]]++;
         }
