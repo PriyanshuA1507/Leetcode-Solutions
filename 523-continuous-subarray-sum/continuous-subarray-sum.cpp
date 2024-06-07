@@ -7,12 +7,12 @@ public:
         
         unordered_map<int, int> m;
         m[0] = -1; 
-        int cs = 0; // cumulative sum
+        int cs = 0; 
         
         for (int i = 0; i < nums.size(); i++) {
             cs += nums[i];
             int rem = cs % k;
-            if (rem < 0) rem += k; // to handle negative remainders
+            if (rem < 0) rem += k; 
             if (m.find(rem) != m.end()) {
                 if (i - m[rem] > 1) {
                     return true;
