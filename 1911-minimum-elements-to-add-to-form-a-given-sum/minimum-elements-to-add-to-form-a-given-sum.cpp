@@ -7,7 +7,7 @@ public:
             sum+=nums[i];
         }
         long long diff = abs(goal-sum);
-        ans = (diff+limit-1)/limit;
-        return ans;
+       return ceil((double)diff/(double)(limit));
+
     }
 };
