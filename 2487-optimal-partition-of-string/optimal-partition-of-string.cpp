@@ -1,18 +1,16 @@
 class Solution {
 public:
     int partitionString(string s) {
-        
-       int ans = 1; 
-        unordered_map<char, int> m;
-        
-        for (char c : s) {
-            if (m[c] > 0) { 
-                ans++; 
+        int ans =1;
+        unordered_map<char,int> m;
+        for(int i=0;i<s.size();i++){
+            if(m[s[i]]>0){
+                ans++;
                 m.clear();
             }
-            m[c] = 1; 
+         m[s[i]]=1;
+
         }
-        
         return ans;
     }
 };
