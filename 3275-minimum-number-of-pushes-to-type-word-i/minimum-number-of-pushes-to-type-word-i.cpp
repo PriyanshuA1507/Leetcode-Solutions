@@ -1,11 +1,6 @@
 class Solution {
 public:
-  Solution()
-    {
-        ios_base::sync_with_stdio(false);
-        cin.tie(NULL);
-        cout.tie(NULL);
-    }
+    
     int minimumPushes(string word) {
         int n = word.size();
        if(n<=8){
