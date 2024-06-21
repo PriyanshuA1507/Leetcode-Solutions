@@ -11,7 +11,10 @@ public:
             if(nums[i]-f>0){
            long long count = min(k,nums[i]-f);
            k-=count;
-           ans += (2*f+count-1)*count/2;
+          long long a = f + count - 1; 
+          long long b = f;  
+          ans += (a * (a + 1) / 2) - ((b - 1) * b / 2);
+
             }
             f= nums[i]+1;
         }
