@@ -4,7 +4,7 @@
 
 class Solution {
 public:
-    int solve(std::vector<int>& nums, int index, int n, vector<int>& memo) {
+    int solve(vector<int>& nums, int index, int n, vector<int>& memo) {
         if (index >= n - 1) {
             return 0;
         }
