@@ -6,12 +6,11 @@ public:
         
         vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
         
-        // Fill the base case for the last column
+      
         for (int i = n - 1; i >= 0; --i) {
             dp[i][m] = dp[i + 1][m] + s1[i];
         }
         
-        // Fill the base case for the last row
         for (int j = m - 1; j >= 0; --j) {
             dp[n][j] = dp[n][j + 1] + s2[j];
         }
