@@ -15,7 +15,7 @@ public:
             dp[n][j] = dp[n][j + 1] + s2[j];
         }
         
-        // Fill the rest of the dp table
+      
         for (int i = n - 1; i >= 0; --i) {
             for (int j = m - 1; j >= 0; --j) {
                 if (s1[i] == s2[j]) {
