@@ -16,7 +16,7 @@ public:
         return findMaxCompatibilitySum(students, mentors, usedMentors, 0);
     }
 
-private:
+
     int findMaxCompatibilitySum(vector<vector<int>>& students, vector<vector<int>>& mentors, vector<int>& usedMentors, int studentIndex) {
         if (studentIndex == students.size()) {
             return 0;
