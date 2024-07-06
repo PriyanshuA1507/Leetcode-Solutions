@@ -9,15 +9,7 @@ public:
         }
         return compatibility;
     }
-
-    int maxCompatibilitySum(vector<vector<int>>& students, vector<vector<int>>& mentors) {
-        int n = students.size();
-        vector<int> usedMentors(n, 0);
-        return findMaxCompatibilitySum(students, mentors, usedMentors, 0);
-    }
-
-
-    int findMaxCompatibilitySum(vector<vector<int>>& students, vector<vector<int>>& mentors, vector<int>& usedMentors, int studentIndex) {
+   int findMaxCompatibilitySum(vector<vector<int>>& students, vector<vector<int>>& mentors, vector<int>& usedMentors, int studentIndex) {
         if (studentIndex == students.size()) {
             return 0;
         }
@@ -35,4 +27,10 @@ public:
 
         return maxSum;
     }
+    int maxCompatibilitySum(vector<vector<int>>& students, vector<vector<int>>& mentors) {
+        int n = students.size();
+        vector<int> usedMentors(n, 0);
+        return findMaxCompatibilitySum(students, mentors, usedMentors, 0);
+    }
+
 };
