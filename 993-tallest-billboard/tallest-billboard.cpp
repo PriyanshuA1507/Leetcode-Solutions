@@ -21,7 +21,7 @@ public:
     }
 
     int tallestBillboard(vector<int>& rods) {
-        dp.clear();
+        
         int result = solve(rods, 0, 0);
         return result < 0 ? 0 : result;
     }
