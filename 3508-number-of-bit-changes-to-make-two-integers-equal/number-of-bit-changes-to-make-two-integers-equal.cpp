@@ -1,6 +1,6 @@
 class Solution {
 public:
-    std::string toBinary(int number) {
+    std::string ctb(int number) {
         if (number == 0) return "0";
         std::string binary = "";
         while (number > 0) {
@@ -11,29 +11,29 @@ public:
     }
 
     int minChanges(int n, int k) {
-        std::string binN = toBinary(n);
-        std::string binK = toBinary(k);
+        string a = ctb(n);
+        string b = ctb(k);
 
-      
-        while (binN.length() < binK.length()) {
-            binN = "0" + binN;
+       
+        if (a.size() < b.size()) {
+            return -1;
         }
-        while (binK.length() < binN.length()) {
-            binK = "0" + binK;
+         while (a.length() < b.length()) {
+            a = "0" + a;
         }
-
+        while (b.length() < a.length()) {
+            b = "0" + b;
+        }
         int changes = 0;
-        for (size_t i = 0; i < binN.length(); ++i) {
-            if (binK[i] == '1' && binN[i] == '0') {
-            
+        for (int i = 0; i < a.size(); i++) {
+            if(b[i]=='1' && a[i]=='0'){
                 return -1;
             }
-            if (binN[i] == '1' && binK[i] == '0') {
-                
+             if(b[i]=='0' && a[i]=='1'){
                 changes++;
             }
+            
         }
-
         return changes;
     }
 };
