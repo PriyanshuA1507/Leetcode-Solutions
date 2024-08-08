@@ -1,15 +1,28 @@
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-       for(int i = 0;i<nums.size();i++){
-           bool swaaped =false;
-        for(int j = 0;j<nums.size()-i-1;j++){
-            if(nums[j]>nums[j+1]){
-                swap(nums[j],nums[j+1]);
-                swaaped=true;
-            }
+      int z = 0;
+      int o =0;
+      int t = 0;
+      for(int i = 0;i<nums.size();i++){
+        if(nums[i]==0){
+            z++;
         }
-        if(swaaped==false) break;
+        else if(nums[i]==1){
+            o++;
+        }
+        else if (nums[i]==2){
+            t++;
+        }
+      }
+      for(int i=0;i<z;i++){
+        nums[i]=0;
+      }
+      for(int i=z;i<z+o;i++){
+        nums[i]=1;
+      }
+      for(int i=o+z;i<z+o+t;i++){
+        nums[i]=2;
+      }
     }
-}
 };
