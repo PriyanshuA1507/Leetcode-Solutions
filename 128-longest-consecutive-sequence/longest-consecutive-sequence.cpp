@@ -10,22 +10,22 @@ public:
 
         std::set<int> a(nums.begin(), nums.end());
         int length = 0;
-        int ans = 0;
+        int start = *a.begin();  // Initialize start with the first element in the set
+        int ans = 1;  // Start with 1 because a single number is a valid sequence
 
         for(int it : a) {
-            // Check if 'it - 1' is not in the set, which means 'it' could be the start of a new sequence
-            if(a.find(it - 1) == a.end()) {
-                int currentNum = it;
-                int currentStreak = 1;
-
+            if(it == start) {
+                // Continue if it's the first element
+                length = 1;
+            } else if(it == start + 1) {
                 // Continue the sequence
-                while(a.find(currentNum + 1) != a.end()) {
-                    currentNum += 1;
-                    currentStreak += 1;
-                }
-
-                ans = std::max(ans, currentStreak);
+                length++;
+            } else {
+                // Reset the sequence if it breaks
+                length = 1;
             }
+            start = it;
+            ans = std::max(ans, length);
         }
 
         return ans;
