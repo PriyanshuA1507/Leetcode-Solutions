@@ -8,7 +8,7 @@ public:
             return 1;
         }
 
-        std::set<int> a(nums.begin(), nums.end());
+        set<int> a(nums.begin(), nums.end());
         int length = 0;
         int start = *a.begin();  
         int ans = 1;  
