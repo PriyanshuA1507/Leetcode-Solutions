@@ -1,36 +1,34 @@
 class Solution {
 public:
-    int round(double a,double b){
-        int x=a/b;
-        double n=a/b;
-        if(n-x>0)
-            return x+1;
-        return x;
-    }
-    int smallestDivisor(vector<int>& nums, int threshold) {
-     int s = 1;
-     int e = 0;
-     for(int i=0;i<nums.size();i++){
-        if(nums[i]>e){
-            e = nums[i];
-        }
-     }
-     int ans =0;
-     int mid = e + (e-s)/2;
-     while(s<=e){
-         int sum=0;
-            for(int i=0;i<nums.size();++i){
-                sum+= (round(nums[i],mid));
+      bool possible(vector<int>& nums, int threshold,int mid){
+        long long ans = 0;
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]%mid==0){
+                ans+=(nums[i]/mid);
             }
-
-        if(sum<=threshold){
-            ans = mid;
-            e = mid-1;
+            else{
+                ans+=(nums[i]/mid +1);
+            }
         }
-        else{
-          s = mid+1;}
-          mid = s+(e-s)/2;   
-     }
-     return mid;
+        if(ans<=threshold){
+            return true;
+        }
+        return false;
+      }
+    int smallestDivisor(vector<int>& nums, int threshold) {
+        int start = 1;
+        int end = *max_element(nums.begin(), nums.end());
+        int ans = end;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (possible(nums, threshold, mid)) {
+                ans = mid;
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return ans;
     }
 };
