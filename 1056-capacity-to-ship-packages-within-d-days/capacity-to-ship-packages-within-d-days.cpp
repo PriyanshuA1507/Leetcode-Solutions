@@ -1,46 +1,39 @@
 class Solution {
 public:
-    bool canShipWithinDays(vector<int>& w, int days, int maxLoad) {
-        int dayCount = 1;
-        int currentLoad = 0;
-        for (int i = 0; i < w.size(); i++) {
-            if (currentLoad + w[i] <= maxLoad) {
-                currentLoad += w[i];
-            } else {
-                dayCount++;
-                if (dayCount > days || w[i] > maxLoad) {
-                    return false;
-                }
-                currentLoad = w[i];
+    bool possible(vector<int>& weights, int days,int m){
+        long long ans = 1;
+        int cw=0;
+        for(int i=0;i<weights.size();i++){
+            if(cw+weights[i]>m){
+               ans++;
+               cw = weights[i];
+               if(ans>days){
+                return false;
+               }
             }
+             else{
+                cw+=weights[i];
+               }
         }
         return true;
     }
-
-    int shipWithinDays(vector<int>& w, int days) {
-        int sum = 0;
-        int maxWeight = 0;
-        for (int i = 0; i < w.size(); i++) {
-            sum += w[i];
-            if (w[i] > maxWeight) {
-                maxWeight = w[i];
-            }
+    int shipWithinDays(vector<int>& weights, int days) {
+        int start = *max_element(weights.begin(), weights.end());
+        long long end = 0;
+        for(int i=0;i<weights.size();i++){
+            end+=weights[i];
         }
-
-        int start = 0;
-        int end = sum;
-        int answer = -1;
-
-        while (start <= end) {
-            int mid = start + (end - start) / 2;
-            if (canShipWithinDays(w, days, mid)) {
-                answer = mid;
-                end = mid - 1;
-            } else {
-                start = mid + 1;
-            }
+        int ans = 0;
+        while(start<=end){
+         int mid = (start+end)/2;
+         if(possible(weights,days,mid)){
+            ans = mid;
+            end = mid-1;
+         }
+         else{
+            start = mid+1;
+         }
         }
-
-        return answer;
+        return ans;
     }
 };
