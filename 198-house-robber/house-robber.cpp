@@ -1,24 +1,24 @@
 class Solution {
 public:
-    int solve(vector<int>& nums, int n, vector<int>& memo) {
-        if (n < 0) {
+     int solve(vector<int>& nums,int index,vector<int>& dp){
+        int n = nums.size();
+        if(index>=n){
             return 0;
         }
-        if (memo[n] != -1) {
-            return memo[n];
+        if(index==n-1){
+            return nums[n-1];
         }
-        int incl = nums[n] + solve(nums, n - 2, memo);
-        int excl = solve(nums, n - 1, memo);
-        memo[n] = max(incl, excl);
-        return memo[n];
-    }
-    
+        if(dp[index]!=-1){
+            return dp[index];
+        }
+
+        int take = nums[index] + solve(nums,index+2,dp);
+        int nottake  = solve(nums,index+1,dp);
+        return dp[index]=max(take,nottake);
+     }
     int rob(vector<int>& nums) {
         int n = nums.size();
-        if (n == 0) {
-            return 0;
-        }
-        vector<int> memo(n, -1);
-        return solve(nums, n - 1, memo);
+        vector<int> dp(n,-1);
+        return solve(nums,0,dp);
     }
 };
