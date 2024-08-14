@@ -1,36 +1,49 @@
 class Solution {
 public:
-     int solve(vector<string>& words,int ci,int pi,vector<vector<int>>& dp){
-        if(ci>=words.size()){
+    bool c(string& a, string& b) {
+        if (b.size() - a.size() != 1) return false;
+        unordered_map<char,int> m;
+          int i = 0, j = 0;
+        while (j < b.size()) {
+            if (i < a.size() && a[i] == b[j]) {
+                i++;
+            }
+            j++;
+        }
+        return i == a.size();  
+    }
+
+    
+    int solve(vector<string>& words, int index, int pi, vector<vector<int>>& dp) {
+        if (index >= words.size()) {
             return 0;
         }
-        if(dp[ci][pi+1]!=-1){
-            return dp[ci][pi+1];
+
+        if (dp[index][pi + 1] != -1) {
+            return dp[index][pi + 1];
         }
-        int take = 0;
-        if(pi==-1){
-        take = 1 + solve(words,ci+1,ci,dp);
+
+        int include = 0;
+        if (pi == -1 || c(words[pi], words[index])) {
+            include = 1 + solve(words, index + 1, index, dp);
         }
-        else if(words[ci].size()==words[pi].size()+1){
-         int i=0;
-         int j =0 ;
-         for( i=0;i<words[ci].size();i++){
-            if(words[ci][i]==words[pi][j]){
-                j++;
-            }
-         }
-         if(j==words[pi].size()){
-            take = 1 + solve(words,ci+1,ci,dp);
-         }
-        }
-        int nottake = solve(words,ci+1,pi,dp);
-        return dp[ci][pi+1]= max(take,nottake);
-     }
+
+        int exclude = solve(words, index + 1, pi, dp);
+
+        dp[index][pi + 1] = max(include, exclude);
+        return dp[index][pi + 1];
+    }
+
+    // Main function to return the length of the longest string chain
     int longestStrChain(vector<string>& words) {
-    sort(words.begin(), words.end(), [](const string& a, const string& b) {
+        // Sort words by their length (ascending)
+        sort(words.begin(), words.end(), [](const string& a, const string& b) {
             return a.size() < b.size();
         });
-       vector<vector<int>> dp(words.size()+1,vector<int>(words.size()+1,-1));
-       return solve(words,0,-1,dp);
+
+        int n = words.size();
+        vector<vector<int>> dp(n, vector<int>(n + 1, -1));  // Memoization table
+
+        return solve(words, 0, -1, dp);
     }
 };
