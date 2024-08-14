@@ -1,16 +1,17 @@
 class Solution {
 public:
-    void solve(int o,int c, string a,vector<string>& p){
-     if(o==0 && c==0){
-        p.push_back(a);
-        return;
-     }
-     if(o>0) solve(o-1,c,a+"(",p);
-     if(c>o) solve(o,c-1,a+")",p);
+    void solve(int open,int close,string a, vector<string>& ans){
+        if(open==0 && close==0){
+            ans.push_back(a);
+            return;
+        }
+        if(open>0) solve(open-1,close,a+"(",ans);
+         if(close>open) solve(open,close-1,a+")",ans);
     }
+
     vector<string> generateParenthesis(int n) {
-       vector<string> p;
-       solve(n,n,"",p);
-       return p; 
+        vector<string> ans;
+        solve(n,n,"",ans);
+        return ans;
     }
 };
