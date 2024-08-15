@@ -5,10 +5,9 @@ public:
             return false;
         }
 
-        // Concatenate s with itself
+        
         string doubled_s = s + s;
 
-        // Check if goal is a substring of the concatenated string
         return doubled_s.find(goal) != string::npos;   
     }
 };
