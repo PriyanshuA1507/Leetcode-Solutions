@@ -1,27 +1,27 @@
 class KthLargest {
-private:
-    int k;
-    std::priority_queue<int, std::vector<int>, std::greater<int>> minHeap;
-
 public:
-    KthLargest(int k, const std::vector<int>& nums) : k(k) {
-        for (int num : nums) {
-            minHeap.push(num);
-            if (minHeap.size() > k) {
-                minHeap.pop();
+    priority_queue<int, vector<int>, greater<int>> pq;
+    int k;
+
+    KthLargest(int k, vector<int>& nums) {
+        this->k = k;
+        for (int i : nums) {
+            pq.push(i);
+            if (pq.size() > k) {
+                pq.pop();
             }
         }
     }
-
+    
     int add(int val) {
-        minHeap.push(val);
-        if (minHeap.size() > k) {
-            minHeap.pop();
+        pq.push(val);
+        if (pq.size() > k) {
+            pq.pop();
         }
-
-        return minHeap.top();
+        return pq.top();
     }
 };
+
 /**
  * Your KthLargest object will be instantiated and called as such:
  * KthLargest* obj = new KthLargest(k, nums);
