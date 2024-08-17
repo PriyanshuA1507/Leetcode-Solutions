@@ -1,24 +1,21 @@
 class Solution {
 public:
-    vector<vector<int>>ans;
-    void solverec(vector<int>a,vector<int>subset,int start){
-        ans.push_back(subset);
-        
-        for(int i=start;i<a.size();i++){
-            if(i!=start&&a[i]==a[i-1]){
-                continue;
-            }
-            subset.push_back(a[i]);
-            solverec(a,subset,i+1);
-            subset.pop_back();
-            
-        }
+    void solve(vector<int>& nums,int index,vector<int>& curr,vector<vector<int>>& ans){
+     ans.push_back(curr);
+    for(int i=index;i<nums.size();i++){
+      if(i>index && nums[i]==nums[i-1]){
+        continue;
+      }
+      curr.push_back(nums[i]);
+      solve(nums,i+1,curr,ans);
+      curr.pop_back();
     }
-    vector<vector<int>>subsetsWithDup(vector<int>a){
-        vector<int>an;
-        sort(a.begin(),a.end());
-        solverec(a,an,0);
-        return ans;
     }
-    
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+       vector<int> curr;
+       sort(nums.begin(),nums.end());
+       vector<vector<int>> ans;
+       solve(nums,0,curr,ans); 
+       return ans;
+    }
 };
