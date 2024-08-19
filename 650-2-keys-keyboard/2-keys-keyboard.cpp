@@ -1,19 +1,26 @@
 class Solution {
 public:
-    int solve(int n,int i,int j){
-        if(i>n)
-        return 1e8;
-        if(n==i){
+    int solve(int n, int ol,int cl){
+        if(ol>n){
+            return 1e9;
+        }
+        if(ol==n){
             return 0;
         }
-        int c = 2+ solve(n,2*i,i);
-        int  p = 1+solve(n,i+j,j);
-        return min(c,p);
+        
+       
+       int c1 = 2 + solve(n,2*ol,ol);
+       
+       int p = 1 + solve(n,ol+cl,cl);
+
+       return  min(c1,p);
     }
     int minSteps(int n) {
         if(n<=1){
             return 0;
         }
-        return 1+solve(n,1,1);
+       int ol = 1;
+       int cl = 1;
+    return 1+solve(n,1,1);
     }
 };
