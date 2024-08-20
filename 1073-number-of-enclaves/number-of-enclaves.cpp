@@ -1,37 +1,44 @@
 class Solution {
 public:
-    void dfs(vector<vector<int>>& grid, int i, int j, vector<vector<int>>& dir) {
-        grid[i][j] = -1;
-        int n = grid.size(), m = grid[0].size();
-        for (int d = 0; d < dir.size(); d++) {
-            int r = i + dir[d][0];
-            int c = j + dir[d][1];
-            if (r >= 0 && c >= 0 && r < n && c < m && grid[r][c] == 1) {
-                dfs(grid, r, c, dir);
-            }
-        }
-    }
-
     int numEnclaves(vector<vector<int>>& grid) {
-        vector<vector<int>> dir = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-        int n = grid.size(), m = grid[0].size();
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (i == 0 || i == n - 1 || j == 0 || j == m - 1) {
-                    if (grid[i][j] == 1) {
-                        dfs(grid, i, j, dir);
-                    }
-                }
+     int m = grid.size();
+     int n  = grid[0].size();
+     queue<pair<int,int>> q;
+     vector<vector<bool>> visited(m,vector<bool>(n,false));
+     for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            if(grid[i][j]==1){
+            if(i==0 || j==0|| i==m-1 || j==n-1){
+                q.push({i,j});
+                visited[i][j]=true;
+                grid[i][j] = -1;
+            }
             }
         }
-        int no = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (grid[i][j] == 1) {
-                    no++;
-                }
+     }
+     vector<vector<int>> dir = {{-1,0},{0,1},{1,0},{0,-1}};
+     while(!q.empty()){
+      auto a = q.front();
+      q.pop();
+      for(auto &a1:dir){
+        int r = a1[0] + a.first;
+        int c = a1[1] + a.second;
+    if(r>=0 && c>=0 && r<m && c<n && !visited[r][c] && grid[r][c]==1){
+        visited[r][c] = true;
+        grid[r][c] = -1;
+        q.push({r,c});
+    }
+      }
+     }
+     int ans = 0;
+     for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            if(grid[i][j]==1){
+                ans++;
             }
         }
-        return no;
+     }
+     return ans;
+
     }
 };
