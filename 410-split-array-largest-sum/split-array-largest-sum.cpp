@@ -30,7 +30,7 @@ public:
 
         int low = maxi;
         int high = sum;
-        int ans = high;
+        int ans = 0;
 
         while (low <= high) {
             int mid = low + (high - low) / 2;
