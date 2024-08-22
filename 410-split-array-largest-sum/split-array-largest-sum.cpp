@@ -1,24 +1,23 @@
 class Solution {
 public:
-    bool canwe(vector<int>& nums, int k, int mid) {
-        int n = nums.size();
-        int ds = 1;
-        int sum = 0;
-        
-        for (int i = 0; i < n; i++) {
-            if (sum + nums[i] > mid) {
-                ds++;
-                sum = nums[i];
-                if (ds > k) {
-                    return false;
-                }
-            } else {
-                sum += nums[i];
-            }
+    bool canwe(vector<int>& nums, int k,int mid){
+    int n = nums.size();
+    int ds = 1;
+    int sum = 0;
+    for(int i=0;i<n;i++){
+     if(sum+nums[i]>mid){
+        ds++;
+        sum=nums[i];
+        if(ds>k){
+            return false;
         }
-        return true;
+     }
+        else{
+            sum+=nums[i];
+        }
     }
-
+    return true;
+   } 
     int splitArray(vector<int>& nums, int k) {
         int sum = 0;
         int maxi = INT_MIN;
