@@ -16,18 +16,19 @@ public:
     int r = a.second.first;
     int c = a.second.second;
      if (r == n-1 && c == m-1) {
-                return diff;  
+                return diff;  // Return the minimum effort when reaching the bottom-right corner
             }
     for(auto & d: direction){
      int nr = r + d[0];
      int nc = c + d[1];
-     if(nr>=0 && nc>=0 && nc<m && nr<n ){
-       int newEffort = max(diff, abs(h[r][c] - h[nr][nc]));
-         if (newEffort < result[nr][nc]) {
-             result[nr][nc] = newEffort;
-             pq.push({newEffort, {nr, nc}});
-        }
-     }
+     
+                if (nr >= 0 && nc >= 0 && nr < n && nc < m) {
+                    int newEffort = max(diff, abs(h[r][c] - h[nr][nc]));
+                    if (newEffort < result[nr][nc]) {
+                        result[nr][nc] = newEffort;
+                        pq.push({newEffort, {nr, nc}});
+                    }
+                }
     }
      }
      return result[n-1][n-1];
