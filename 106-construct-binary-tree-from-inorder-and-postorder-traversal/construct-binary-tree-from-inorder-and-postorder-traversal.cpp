@@ -11,28 +11,26 @@
  */
 class Solution {
 public:
-   int fp(vector<int> in,int element,int n){
-    for(int i=0;i<n;i++){
-        if(in[i]==element)
-        return i;
-    }
-    return -1;
-   }
-    TreeNode* solve(vector<int>& inorder, vector<int>& postorder,int &index,int inorderstart,int inorderend,int n){
+    TreeNode* solve(vector<int>& inorder, vector<int>& postorder, int &index,int inorderstart,int inorderend,int n,unordered_map<int,int> &m){
     if(index<0 || inorderstart>inorderend){
         return NULL;
     }
+
     int element = postorder[index--];
-    TreeNode* root = new TreeNode(element);
-    int position = fp(inorder,element,n);
-    root->right = solve(inorder,postorder,index,position+1,inorderend,n);
-    root->left = solve(inorder,postorder,index,inorderstart,position-1,n);
-    return root; 
+    TreeNode*  root = new TreeNode(element);
+    int position = m[element];
+
+    root->right = solve(inorder,postorder,index,position+1,inorderend,n,m);
+    root->left = solve(inorder,postorder,index,inorderstart,position-1,n,m);
+    return root;
     }
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        int n = inorder.size();
-        int postorderindex = n-1;
-    TreeNode* ans = solve(inorder,postorder,postorderindex,0,n-1,n);
-    return ans;
+    int n = postorder.size();
+    int index = n-1;
+    unordered_map<int,int> m;
+    for(int i=0;i<inorder.size();i++){
+        m[inorder[i]]=i;
+    }
+    return solve(inorder,postorder,index,0,n-1,n,m);
     }
 };
