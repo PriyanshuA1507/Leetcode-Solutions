@@ -1,15 +1,14 @@
 class Solution {
 public:
-    const vector<vector<int>> dir = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}}; // Fixed directions
+  vector<vector<int>> dir = {{-1,0},{0,1},{1,0},{0,-1}};
     int nearestExit(vector<vector<char>>& maze, vector<int>& entrance) {
-        int n = maze.size(), m = maze[0].size();
-        vector<vector<bool>> vis(n, vector<bool>(m, false));
-        queue<pair<int, int>> q;
-        q.push({entrance[0], entrance[1]});
-        vis[entrance[0]][entrance[1]] = true;
+        int n = maze.size() , m = maze[0].size();
+        vector<vector<bool>> vis(n,vector<bool>(m,false));
+        queue<pair<int,int>> q;
+        q.push({entrance[0],entrance[1]});
+        vis[entrance[0]][entrance[1]]=1;
         int ans = 0;
-
-        while (!q.empty()) {
+       while (!q.empty()) {
             int size = q.size();
             ans++;
             for (int i = 0; i < size; i++) {
@@ -28,7 +27,6 @@ public:
                 }
             }
         }
-
-        return -1; 
+        return -1;
     }
 };
