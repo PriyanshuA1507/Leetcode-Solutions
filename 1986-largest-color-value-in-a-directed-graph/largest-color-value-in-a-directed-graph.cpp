@@ -1,51 +1,62 @@
 class Solution {
 public:
     int largestPathValue(string colors, vector<vector<int>>& edges) {
-        int n = colors.size();
         unordered_map<int, vector<int>> adj;
-        vector<int> indegree(n, 0);
-
-        for (const auto& edge : edges) {
-            int u = edge[0];
-            int v = edge[1];
+        int N = colors.size();
+        
+        vector<int> indegree(N, 0);
+        
+        for(auto &vec : edges) {
+            int u = vec[0];
+            int v = vec[1];
+            
             adj[u].push_back(v);
             indegree[v]++;
+            
         }
-
-        queue<int> q;
-        for (int i = 0; i < n; i++) {
-            if (indegree[i] == 0) {
-                q.push(i);
+        
+        queue<int> que;
+        vector<vector<int>> t(N, vector<int>(26, 0));
+        
+        for(int i = 0; i<N; i++) {
+            if(indegree[i] == 0) {
+                que.push(i);
+                t[i][colors[i]-'a'] = 1;
             }
         }
-
-        vector<vector<int>> t(n, vector<int>(26, 0));
+        
         int answer = 0;
-        int edgecount = 0;
-
-        while (!q.empty()) {
-            int node = q.front();
-            q.pop();
-            edgecount++;
-
-            t[node][colors[node] - 'a']++;
-            answer = max(answer, *max_element(t[node].begin(), t[node].end()));
-
-            for (int& v : adj[node]) {
-                for (int i = 0; i < 26; i++) {
-                    t[v][i] = max(t[v][i], t[node][i]);
+        
+        int countNodes = 0;
+        
+        while(!que.empty()) {
+            
+            int u = que.front();
+            que.pop();
+            
+            countNodes++;
+            
+            answer = max(answer, t[u][colors[u]-'a']);
+            
+            for(int &v : adj[u]) {
+                
+                for(int i = 0; i<26; i++) {
+                    
+                    t[v][i] = max(t[v][i], t[u][i] + (colors[v]-'a' == i));
+                    
                 }
+                
                 indegree[v]--;
-                if (indegree[v] == 0) {
-                    q.push(v);
+                if(indegree[v] == 0) {
+                    que.push(v);
                 }
             }
+            
         }
-
-        if (edgecount < n) {
-            return -1;  
-        }
-
+        
+        if(countNodes < N)
+            return -1;
+        
         return answer;
     }
 };
