@@ -1,33 +1,35 @@
 class Solution {
 public:
+  using p = pair<int,int>;
     long long maximumImportance(int n, vector<vector<int>>& roads) {
-        vector<unordered_set<int>> graph(n);
+        unordered_map<int,vector<int>> adj;
+        vector<int> indegree(n,0);
         for(int i=0;i<roads.size();i++){
-            int f,s;
-            f=roads[i][0];
-            s=roads[i][1];
-
-            graph[f].insert(s);
-            graph[s].insert(f);
+            int u = roads[i][0];
+            int v = roads[i][1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+            indegree[u]++;
+            indegree[v]++;
         }
-
-        vector<pair<int,int>> imp(n);
-
+        
+        priority_queue<p, vector<p> ,greater<p>> pq;
         for(int i=0;i<n;i++){
-            imp[i].first=graph[i].size();
-            imp[i].second=i;
-        } 
-        sort(imp.begin(),imp.end());
-        unordered_map<int,int> mp;
-        for(int i=0;i<n;i++){
-            mp[imp[i].second]=i+1;
+            pq.push({indegree[i],i});
         }
-
-        long long ans=0;
-        for(int i=0;i<roads.size();i++){
-            ans+=mp[roads[i][0]];
-            ans+=mp[roads[i][1]];
-        }
-        return ans;   
+       vector<int> cost(n,0);
+       int i=1;
+       while(pq.size()!=0){
+        auto a = pq.top();
+        pq.pop();
+        cost[a.second] = i++;
+       }
+      long long ans = 0;
+      for(auto a: roads){
+        ans +=cost[a[0]];
+        ans +=cost[a[1]];
+      }
+      return ans;
+        
     }
 };
