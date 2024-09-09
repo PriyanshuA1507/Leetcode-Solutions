@@ -1,8 +1,8 @@
 class Solution {
 public:
     vector<string> check(string word,unordered_set<string>& wordSet){
-        std::vector<std::string> adjacentWords;
-        std::string tempWord = word;
+        vector<string> adjacentWords;
+        string tempWord = word;
         for (int i = 0; i < word.size(); ++i) {
             char originalChar = tempWord[i];
             for (char c = 'a'; c <= 'z'; ++c) {
