@@ -1,26 +1,26 @@
 class Solution {
 public:
-    bool solve(vector<int>& nums, int index,vector<int>& dp) {
-        if (index >= nums.size() - 1) {
-            return true;  
+    bool solve(vector<int>& nums,int index,int n,vector<int>& dp){
+
+        if(index==n-1){
+            return true;
+        }
+        if(index>=n){
+            return false;
         }
         if(dp[index]!=-1){
             return dp[index];
         }
-
-        int maxJump = nums[index];
-        for (int i = 1; i <= maxJump; i++) {
-            if (solve(nums, index + i,dp)) {
-                return true;  
+        for(int i=1;i<=nums[index];i++){
+            if(solve(nums,index+i,n,dp)){
+            return dp[index+i] =true;
             }
         }
-
-        return dp[index]=false;  
+        return dp[index]= false;
     }
-
     bool canJump(vector<int>& nums) {
-        int n = nums.size();
+        int n = 100000;
         vector<int> dp(n+1,-1);
-        return solve(nums, 0,dp);
+        return solve(nums,0,nums.size(),dp);
     }
 };
