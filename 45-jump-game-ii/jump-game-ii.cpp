@@ -11,13 +11,11 @@ public:
             return dp[index];
         }
         int ans = INT_MAX;
-        for (int i = 1; i <= nums[index]; ++i) {
-            if (index + i < n) {
+        for (int i = 1; i <= nums[index]; ++i) {     
                 int temp = solve(nums, index + i, n,dp);
                 if (temp  != INT_MAX) {
                     ans = min(ans, 1 + temp);
                 }
-            }
         }
         return dp[index]=ans;
     }
