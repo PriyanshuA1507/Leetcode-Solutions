@@ -1,7 +1,10 @@
 class Solution {
 public:
     int solve(vector<int>& nums, int index, int n,vector<int>& dp) {
-        if (index >= n-1) {
+        if(index>=n){
+            return INT_MAX;
+        }
+        if (index == n-1) {
             return 0;
         }
         if(dp[index]!=-1){
