@@ -16,12 +16,12 @@ public:
                 }
             }
         }
-        return dp[index]= ans;
+        return dp[index]=ans;
     }
 
     int jump(vector<int>& nums) {
         int n = nums.size();
-        vector<int> dp(n,-1);
+        vector<int> dp(n+1,-1);
         return solve(nums, 0, n,dp);
     }
 };
