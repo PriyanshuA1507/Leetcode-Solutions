@@ -4,14 +4,18 @@ public:
     MyCalendar() {
         
     }
-    
     bool book(int start, int end) { 
-       for(auto it: booking){
-        if(max(it.first,start)<min(it.second,end)){
-            return false;
-        }
-       }
-       booking.insert({start,end});
+      auto it = booking.lower_bound({start,end});
+      if(it!=booking.end() && it->first<end){
+        return false;
+      }
+      if(it!=booking.begin()){
+        auto prevIt = prev(it);
+        if(start < prevIt->second) {
+                return false;
+            }
+      }
+       booking.insert({start, end});
         return true;
     }
 };
