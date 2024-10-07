@@ -5,17 +5,17 @@ public:
      sort(nums.begin(),nums.end());
     
      for(int i=0;i<nums.size();i++){
-     int start = i;
+    
      int start2 = i+1;
      int end = nums.size()-1;
      
      while(start2<end){
-        if(nums[start]+nums[start2]+nums[end]==0){
-            ans.insert({nums[start],nums[start2],nums[end]});
+        if(nums[i]+nums[start2]+nums[end]==0){
+            ans.insert({nums[i],nums[start2],nums[end]});
             start2++;
             end--;
         }
-        else if(nums[start]+nums[start2]+nums[end]<0){
+        else if(nums[i]+nums[start2]+nums[end]<0){
             start2++;
         }
         else{
