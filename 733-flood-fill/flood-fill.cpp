@@ -1,7 +1,7 @@
 class Solution {
 public:
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
-        vector<vector<int>> dir = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+       vector<vector<int>> dir = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
         int n = image.size(), m = image[0].size();
         int originalColor = image[sr][sc];
         
