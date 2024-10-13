@@ -1,44 +1,47 @@
 class Solution {
 public:
+     using p = pair<int,int>;
+     vector<vector<int>> dirs = {{-1,0}, {0,1},{1,0},{0,-1}};
     int numEnclaves(vector<vector<int>>& grid) {
-     int m = grid.size();
-     int n  = grid[0].size();
-     queue<pair<int,int>> q;
-     vector<vector<bool>> visited(m,vector<bool>(n,false));
-     for(int i=0;i<m;i++){
-        for(int j=0;j<n;j++){
-            if(grid[i][j]==1){
-            if(i==0 || j==0|| i==m-1 || j==n-1){
-                q.push({i,j});
-                visited[i][j]=true;
-                grid[i][j] = -1;
+        queue<p> q;
+        int c =0;
+        int n = grid.size() ,m = grid[0].size();
+        for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+        if(grid[i][j]==1 &&(i==0 || j==0 || i==n-1 || j==m-1)){
+            q.push({i,j});
+            grid[i][j]=-1;
+        }
+        }
+        }
+        while(q.size()!=0){
+            int size = q.size();
+            for(int i=0;i<size;i++){
+            auto a = q.front();
+            q.pop();
+
+            for(auto d: dirs){
+            int r = a.first + d[0];
+            int c = a.second + d[1];
+
+            if(r>=0 && c>=0 && r<n && c<m && grid[r][c]==1){
+            grid[r][c] = -1;
+            q.push({r,c});
+            }
             }
             }
         }
-     }
-     vector<vector<int>> dir = {{-1,0},{0,1},{1,0},{0,-1}};
-     while(!q.empty()){
-      auto a = q.front();
-      q.pop();
-      for(auto &a1:dir){
-        int r = a1[0] + a.first;
-        int c = a1[1] + a.second;
-    if(r>=0 && c>=0 && r<m && c<n && !visited[r][c] && grid[r][c]==1){
-        visited[r][c] = true;
-        grid[r][c] = -1;
-        q.push({r,c});
-    }
-      }
-     }
-     int ans = 0;
-     for(int i=0;i<m;i++){
-        for(int j=0;j<n;j++){
-            if(grid[i][j]==1){
-                ans++;
+            for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+            if(grid[i][j]==-1){
+                grid[i][j] = 1;
             }
-        }
-     }
-     return ans;
+            else if(grid[i][j]==1){
+                c++;
+            }
+            }
+            }
+            return c;
 
     }
 };
