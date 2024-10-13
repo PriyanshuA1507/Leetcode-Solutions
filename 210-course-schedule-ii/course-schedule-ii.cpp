@@ -1,38 +1,38 @@
 class Solution {
 public:
-    vector<int> findOrder(int n, vector<vector<int>>& p) {
-        //1.  indegree;
-        unordered_map<int,vector<int>>m;
-        vector<int> indegree(n,0);
-        for(auto& a:p){
-           m[a[1]].push_back(a[0]);
-           indegree[a[0]]++;
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<int> result;
+        queue<int> q;
+        int c=0;
+        unordered_map<int,vector<int>> adj;
+        vector<int> indegree(numCourses,0);
+        for(auto a: prerequisites){
+        int u = a[0], v = a[1];
+        adj[u].push_back(v);
+        indegree[v]++;
         }
-    //2. indegree 0
-      queue<int> q;
-      for(int i=0;i<n;i++){
-        if(indegree[i]==0){
-            q.push(i);
+        for(int i=0;i<numCourses;i++){
+            if(indegree[i]==0){
+                q.push(i);
+                c++;
+            }
         }
-      }
-      vector<int> ans;
-      int result = 0;
-     while(!q.empty()){
+        while(q.size()!=0){
         int a = q.front();
+        result.push_back(a);
         q.pop();
-        ans.push_back(a);
-        result++;
-        for(auto& a1:m[a]){
-          indegree[a1]--;
-          if(indegree[a1]==0){
-            q.push(a1);
-          }
+        for(auto v: adj[a]){
+         indegree[v]--;
+         if(indegree[v]==0){
+        c++;
+         q.push(v);
+         }
         }
-     }
-     if(result!=n){
-     ans.clear();
-     }
-     return ans;
-    
+        }
+        reverse(result.begin(),result.end());
+        if(c==numCourses){
+        return result;
+        }
+        return {};
     }
 };
