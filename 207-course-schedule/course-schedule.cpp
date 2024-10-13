@@ -1,35 +1,35 @@
 class Solution {
 public:
-    bool canFinish(int n, vector<vector<int>>& p) {
-        //1.  indegree;
-        unordered_map<int,vector<int>>m;
-        vector<int> indegree(n,0);
-        for(auto& a:p){
-           m[a[0]].push_back(a[1]);
-           indegree[a[1]]++;
-        }
-    //2. indegree 0
-      queue<int> q;
-      for(int i=0;i<n;i++){
+    bool canFinish(int numCourses, vector<vector<int>>& p) {
+       vector<int> indegree(numCourses,0);
+       queue<int> q;
+       unordered_map<int,vector<int>> adj;
+       for(auto a: p){
+      int u = a[0], v = a[1];
+       adj[u].push_back(v);
+       indegree[v]++;
+       }
+       int c=0;
+       for(int i=0;i<numCourses;i++){
         if(indegree[i]==0){
-            q.push(i);
+        c++;
+         q.push(i);
         }
+       }
+       while(q.size()!=0){
+      int u = q.front();
+       q.pop();
+       for(auto v: adj[u]){
+      indegree[v]--;
+      if(indegree[v]==0){
+        c++;
+        q.push(v);
       }
-      int result = 0;
-     while(!q.empty()){
-        int a = q.front();
-        q.pop();
-        result++;
-        for(auto& a1:m[a]){
-          indegree[a1]--;
-          if(indegree[a1]==0){
-            q.push(a1);
-          }
-        }
-     }
-     if(result==n){
+       }
+       }
+       if(c==numCourses){
         return true;
-     }
-     return false;
+       }
+       return false;
     }
 };
