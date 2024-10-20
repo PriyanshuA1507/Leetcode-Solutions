@@ -12,8 +12,17 @@ public:
         nums = n1;
         n1.clear();
         }*/
-    reverse(nums.begin() ,nums.end());
-    reverse(nums.begin(),nums.begin()+k);
-    reverse(nums.begin()+k,nums.end());
+    vector<int> a(n,0);
+    int st = 0;
+    for(int i=n-k;i<n;i++){
+       a[st]=nums[i];
+       st++;
+    }
+    int s = k;
+    for(int i=0;i<n-k;i++){
+       a[s] = nums[i];
+       s++;
+    }
+    nums=a;
     }
 };
