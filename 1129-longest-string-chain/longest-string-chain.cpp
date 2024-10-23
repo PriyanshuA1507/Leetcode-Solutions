@@ -1,49 +1,48 @@
 class Solution {
 public:
-    bool c(string& a, string& b) {
-        if (b.size() - a.size() != 1) return false;
-        unordered_map<char,int> m;
-          int i = 0, j = 0;
-        while (j < b.size()) {
-            if (i < a.size() && a[i] == b[j]) {
-                i++;
-            }
-            j++;
+    // Memoization map to store intermediate results
+    unordered_map<int, int> memo;
+
+    bool check(const string& a, const string& b) {
+        if (b.size() + 1 != a.size()) {
+            return false;
         }
-        return i == a.size();  
+        int i = 0, j = 0;
+        while (i < a.size()) {
+            if (a[i] == b[j]) {
+                j++;
+            }
+            i++;
+            if (j == b.size()) break;
+        }
+        return j == b.size();
     }
 
-    
-    int solve(vector<string>& words, int index, int pi, vector<vector<int>>& dp) {
-        if (index >= words.size()) {
+    int solve(vector<string>& words, int ci, int pi) {
+        if (ci >= words.size()) {
             return 0;
         }
+        // Memoization key based on current and previous indices
+        int key = ci * 1000 + pi;
+        if (memo.count(key)) return memo[key];
 
-        if (dp[index][pi + 1] != -1) {
-            return dp[index][pi + 1];
+        int take = 0;
+        if (pi == -1 || check(words[ci], words[pi])) {
+            take = 1 + solve(words, ci + 1, ci);
         }
 
-        int include = 0;
-        if (pi == -1 || c(words[pi], words[index])) {
-            include = 1 + solve(words, index + 1, index, dp);
-        }
-
-        int exclude = solve(words, index + 1, pi, dp);
-
-        dp[index][pi + 1] = max(include, exclude);
-        return dp[index][pi + 1];
+        int nottake = solve(words, ci + 1, pi);
+        return memo[key] = max(take, nottake);
     }
 
-    // Main function to return the length of the longest string chain
     int longestStrChain(vector<string>& words) {
-        // Sort words by their length (ascending)
+        // Sort words by length
         sort(words.begin(), words.end(), [](const string& a, const string& b) {
             return a.size() < b.size();
         });
 
-        int n = words.size();
-        vector<vector<int>> dp(n, vector<int>(n + 1, -1));  // Memoization table
-
-        return solve(words, 0, -1, dp);
+        // Clear the memo map before solving
+        memo.clear();
+        return solve(words, 0, -1);
     }
 };
