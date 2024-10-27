@@ -1,18 +1,18 @@
 class Solution {
 public:
-  int solve(vector<int>& nums, int target,int index){
-    int n = nums.size();
-    if(index==n){
-       if(target==0){
-        return 1;
-       }
-       return 0;
+    int solve(vector<int>& nums, int target,int index,int sum){
+        if(index>=nums.size()){
+            if(target==sum){
+                return 1;
+            }
+            return 0;
+        }
+        int add = solve(nums,target,index+1,sum+nums[index]);
+        int sub = solve(nums,target,index+1,sum-nums[index]);
+
+        return add+sub;
     }
-    int add = solve(nums,target+nums[index],index+1);
-    int s = solve(nums,target - nums[index],index+1);
-     return add+s;
-  }
     int findTargetSumWays(vector<int>& nums, int target) {
-        return solve(nums,target,0);
+    return solve(nums,target,0,0);
     }
 };
