@@ -1,43 +1,38 @@
 class Solution {
 public:
-   
-    vector<vector<int>> memo;
-    bool isPalindrome(const string &s, int start, int end) {
-        while (start < end) {
-            if (s[start] != s[end]) {
-                return false;
+    bool check(string& s,int start, int end) {
+        bool a = true;
+        int start1 = start, end1 = end;
+        while (start1 < end1) {
+            if (s[start1] != s[end1]) {
+                a = false;
+                break;
             }
-            start++;
-            end--;
+            start1++;
+            end1--;
         }
-        return true;
+        return a; 
     }
 
-
-    int minCuts(const string &s, int start, int end) {
-      
-        if (start >= end || isPalindrome(s, start, end)) {
+    int solve(string& s, int start, int end,vector<vector<int>>& dp) {
+        if (start >= end ||  check(s, start, end)) {
             return 0;
         }
-
-        if (memo[start][end] != -1) {
-            return memo[start][end];
+        if(dp[start][end]!=-1){
+            return dp[start][end];
         }
-
-        int min_cut = end - start; 
-
-        for (int k = start; k < end; k++) {
-            if (isPalindrome(s, start, k)) {
-                min_cut = min(min_cut, 1 + minCuts(s, k + 1, end));
+        int ans = end - start;
+        for (int k = start ; k <end; k++) {
+            if (check(s,start,k)) {
+                ans = min(ans, 1 + solve(s,k+1,end,dp));
             }
         }
-
-        return memo[start][end] = min_cut;
+        return dp[start][end]=ans;
     }
 
     int minCut(string s) {
         int n = s.size();
-        memo = vector<vector<int>>(n, vector<int>(n, -1));
-        return minCuts(s, 0, n - 1);
+        vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
+        return solve(s, 0, n - 1,dp);
     }
 };
