@@ -21,7 +21,7 @@ public:
         if(dp[start][end]!=-1){
             return dp[start][end];
         }
-        int ans = end - start;
+        int ans = 1e9;
         for (int k = start ; k <end; k++) {
             if (check(s,start,k)) {
                 ans = min(ans, 1 + solve(s,k+1,end,dp));
