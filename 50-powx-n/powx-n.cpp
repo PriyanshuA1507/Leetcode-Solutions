@@ -1,27 +1,21 @@
 class Solution {
 public:
     double myPow(double x, long long n) {
-       // Base cases
-        if (n == 0) {
-            return 1;
+          double m = n, ans =1;
+         if(n<0){
+          n = n*(-1);
+         }
+        while(n>0){
+        if(n%2==1){
+        ans = ans*x;
+        n = n-1;
         }
-        if (x == 0) {
-            return 0;
+        else{
+        n = n/2;
+        x = x*x;
         }
-
-        // Handle negative power
-        if (n < 0) {
-            x = 1 / x;
-            n = -n;
         }
-
-        // Recursive call with optimization (divide and conquer)
-        double half = myPow(x, n / 2);
-
-        if (n % 2 == 0) {
-            return half * half;  // Even exponent
-        } else {
-            return half * half * x;  // Odd exponent
-        }
+        if(m<0) ans = 1.0/ans;
+        return ans;
     }
 };
