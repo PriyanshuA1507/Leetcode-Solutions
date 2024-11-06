@@ -6,15 +6,15 @@ public:
 
         while (row < matrix.size() && col >= 0) {
             if (matrix[row][col] == target) {
-                return true;  // Found the target
+                return true;  
             } 
             if (matrix[row][col] > target) {
-                col--;  // Move left
+                col--; 
             } else {
-                row++;  // Move down
+                row++;  
             }
         }
         
-        return false;  // Target not found
+        return false;  
     }
 };
