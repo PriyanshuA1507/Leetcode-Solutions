@@ -1,40 +1,40 @@
 class Solution {
 public:
-     bool possible(vector<int>& b, int m, int k,int h){
-        int ans = 0;
-        for(int i=0;i<b.size();i++){
-            int a=0;
-         while(i<b.size() && b[i]<=h && a<k){
-           a++;
-           i++;
-         }
-         if(a==k){
-            ans++;
-            i--;
-         }
+    bool check(int mid,vector<int>& bloomDay, int m, int k){
+    int bouquets = 0;
+        int flowers = 0;
+        
+        for (int i = 0; i < bloomDay.size(); i++) {
+            if (bloomDay[i] <= mid) {
+                flowers++;
+                if (flowers == k) { 
+                    bouquets++;
+                    flowers = 0; 
+                }
+            } else {
+                flowers = 0; 
+            }
         }
-        if(ans>=m){
-            return true;
+        
+        return bouquets >= m;  
+    }
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        if((long long)m*k>bloomDay.size()){
+            return -1;
         }
-        return false;
-     }
-    int minDays(vector<int>& bloomday, int m, int k) {
-       if((long long)m*k>bloomday.size()){
-        return -1;
-       } 
-       int start = 0;
-       int end = INT_MAX;
-       int ans = -1;
-       while(start<=end){
-      int mid = (start+end)/2;
-       if(possible(bloomday,m,k,mid)){
-        ans = mid;
-        end = mid-1;
-       }
-       else{
-        start = mid+1;
-       }
-       }
-       return ans;
+        int start = 1;
+        int end = *max_element(bloomDay.begin(), bloomDay.end());
+        int ans = -1;
+        while(start<=end){
+            int mid = (start) + (end-start)/2;
+            if(check(mid,bloomDay,m,k)){
+                ans = mid;
+                end = mid-1;
+            }
+            else{
+                start = mid+1;
+            }
+        }
+        return ans;
     }
 };
