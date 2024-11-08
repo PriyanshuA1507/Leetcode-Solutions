@@ -15,7 +15,7 @@ public:
 
         ListNode* odd = head;
         ListNode* even = head->next;
-        ListNode* evenHead = even;  // Save the start of the even list
+        ListNode* evenHead = even;  
 
         while (even && even->next) {
             odd->next = even->next;
@@ -24,7 +24,7 @@ public:
             even = even->next;
         }
 
-        odd->next = evenHead;  // Connect the end of odd list to the start of even list
+        odd->next = evenHead; 
         return head;
     }
 };
