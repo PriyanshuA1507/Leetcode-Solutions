@@ -1,30 +1,30 @@
 class Solution {
 public:
-     void dfs(unordered_map<int,vector<int>> adj,vector<bool>& vis,int u){
-        vis[u]=true;
-        for(auto a:adj[u]){
-         if(!vis[a]){
-            dfs(adj,vis,a);
-         }
+    void dfs(unordered_map<int,vector<int>> adj,int node,vector<bool>& visited ){
+     visited[node] = true;
+     for(auto a: adj[node]){
+        if(!visited[a]){
+        dfs(adj,a,visited);
         }
      }
-    int findCircleNum(vector<vector<int>>& m) {
-        int a = m.size();
-        int b = m[0].size();
+    }
+    int findCircleNum(vector<vector<int>>& g) {
+        int n = g.size();
         unordered_map<int,vector<int>> adj;
-        for(int i=0;i<a;i++){
-            for(int j=0;j<b;j++){
-          if(m[i][j]==1 && i!=j){
+        for(int i=0;i<g.size();i++){
+        for(int j=0;j<g[0].size();j++){
+            if(g[i][j]==1 ){
             adj[i].push_back(j);
-         }
+            adj[j].push_back(i);
             }
         }
-        vector<bool> vis(a,0);
-        int ans=0;
-        for(int i=0;i<a;i++){
-        if(!vis[i]){
-        ans++;
-        dfs(adj,vis,i);
+        }
+        int ans = 0;
+        vector<bool> visited(n,false);
+        for(int i=0;i<n;i++){
+        if(!visited[i]){
+        dfs(adj,i,visited);
+         ans++;
         }
         }
         return ans;
