@@ -15,6 +15,8 @@ public:
         }
         }
         while(q.size()!=0){
+        int size = q.size();
+        for(int i=0;i<size;i++){
         auto a = q.front();
         int dist1 = a.second;
         dist[a.first.first][a.first.second] = a.second;
@@ -29,6 +31,7 @@ public:
          }
         }
         }
+           }
        return dist;
     }
 };
