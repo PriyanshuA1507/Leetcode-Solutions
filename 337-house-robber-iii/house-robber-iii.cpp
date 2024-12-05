@@ -16,7 +16,7 @@ public:
         if(!root){
             return 0;
         }
-        if(memset[root]>0){
+        if(memset.count(root)>0){
             return memset[root];
          }
       int taken = root->val;
@@ -33,6 +33,7 @@ public:
         return memset[root]=max({taken,nottaken});
      }
     int rob(TreeNode* root) {
+        
         return solve(root);
     }
 };
