@@ -1,34 +1,35 @@
 class Solution {
 public:
     vector<int> asteroidCollision(vector<int>& a) {
-        vector<int> ans;
-        stack<int> s;
-        
-        for(int i = 0; i < a.size(); i++) {
-            bool destroyed = false;
-            while(!s.empty() && a[i] < 0 && s.top() > 0) {
-                if(s.top() < -a[i]) {
-                    s.pop(); // The top positive asteroid is destroyed
-                } else if(s.top() == -a[i]) {
-                    s.pop(); // Both are destroyed
-                    destroyed = true;
-                    break;
-                } else {
-                    destroyed = true; // The current negative asteroid is destroyed
-                    break;
-                }
+
+     stack<int> s;
+     for(int i=0;i<a.size();i++){
+         bool exploded = false;
+        while(s.size()!=0 && s.top()>0 && a[i]<0){
+            if(s.top()+a[i]==0){
+                s.pop();
+                exploded= true;
+                break;
             }
-            if(!destroyed) {
+            else if(s.top()+a[i]<0){
+                    s.pop();
+                }
+                else{
+                     exploded= true;
+                     break;
+                }
+        }
+            if (!exploded) {
                 s.push(a[i]);
             }
         }
-
-        // Collect the remaining asteroids in the correct order
-        while(!s.empty()) {
-            ans.push_back(s.top());
-            s.pop();
-        }
-        reverse(ans.begin(), ans.end());
-        return ans;
+           
+     vector<int> ans;
+     while(s.size()!=0){
+        ans.push_back(s.top());
+        s.pop();
+     }
+     reverse(ans.begin(),ans.end());
+     return ans;   
     }
 };
