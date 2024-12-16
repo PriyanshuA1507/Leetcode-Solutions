@@ -11,13 +11,12 @@
  */
 class CBTInserter {
 public:
-    queue<TreeNode*> q;  // Stores nodes that are not fully populated
-    TreeNode* root1;     // Root of the tree
+    queue<TreeNode*> q; 
+    TreeNode* root1;     
 
     CBTInserter(TreeNode* root) {
         root1 = root;
 
-        // Level-order traversal to initialize the queue with incomplete nodes
         queue<TreeNode*> tempQueue;
         tempQueue.push(root);
 
@@ -25,12 +24,11 @@ public:
             TreeNode* current = tempQueue.front();
             tempQueue.pop();
 
-            // Add current node to the queue if it is not fully populated
+            
             if (!current->left || !current->right) {
                 q.push(current);
             }
 
-            // Push children to the temporary queue for further traversal
             if (current->left) tempQueue.push(current->left);
             if (current->right) tempQueue.push(current->right);
         }
@@ -39,21 +37,19 @@ public:
     int insert(int val) {
         TreeNode* node = new TreeNode(val);
 
-        // The front of the queue is the first incomplete node
+       
         TreeNode* parent = q.front();
 
-        // Attach the new node to the first available child slot
         if (!parent->left) {
             parent->left = node;
         } else if (!parent->right) {
             parent->right = node;
-            q.pop();  // Remove the node when both children are filled
+            q.pop();  
         }
 
-        // Add the new node to the queue as it may need children in the future
         q.push(node);
 
-        return parent->val;  // Return the value of the parent node
+        return parent->val;  
     }
 
     TreeNode* get_root() {
