@@ -4,13 +4,9 @@ public:
         string ans = "";
         priority_queue<pair<char, int>> pq;
         unordered_map<char, int> m;
-
-        // Count the frequency of characters
         for (auto a : s) {
             m[a]++;
         }
-
-        // Push character-frequency pairs into the priority queue
         for (auto a : m) {
             pq.push({a.first, a.second});
         }
@@ -19,7 +15,6 @@ public:
             auto a = pq.top();
             pq.pop();
 
-            // If the frequency exceeds rl, insert rl times and interleave
             if (a.second > rl) {
                 int b = rl;
                 while (b-- > 0) {
