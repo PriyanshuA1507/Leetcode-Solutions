@@ -1,21 +1,22 @@
 class Solution {
 public:
-    int findContentChildren(vector<int>& g, vector<int>& s) {
-        sort(g.begin(), g.end());
-        sort(s.begin(), s.end());
-
-        int ans = 0;
-        int childIndex = 0;
-        int cookieIndex = 0;
-
-        while (childIndex < g.size() && cookieIndex < s.size()) {
-            if (s[cookieIndex] >= g[childIndex]) {
-                ans++;
-                childIndex++;
-            }
-            cookieIndex++;
+    int findContentChildren(vector<int>& players, vector<int>& trainers) {
+         int ans=0;
+        priority_queue<int>pq1,pq2;
+        for(int i=0;i<players.size();i++){
+            pq1.push(players[i]);
         }
-
+        for(int i=0;i<trainers.size();i++){
+            pq2.push(trainers[i]);
+        }
+        while(pq2.size()>0 && pq1.size()>0){
+           if(pq2.top()>=pq1.top()){
+               ans++;
+               pq1.pop();
+               pq2.pop();
+           }
+           else{ pq1.pop();}
+        }
         return ans;
     }
 };
