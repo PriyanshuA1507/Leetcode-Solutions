@@ -1,24 +1,24 @@
 class Solution {
 public:
-  long long solve(vector<int>& nums,int start,int end, vector<vector<int>>& dp){
-    if(start>end){
+   int solve(vector<int>& nums,int si,int ei,vector<vector<int>>& dp){
+    if(si>ei){
         return 0;
     }
-    if(dp[start][end]!=-1){
-        return dp[start][end];
+    if(dp[si][ei]!=-1){
+        return dp[si][ei];
     }
-    long long ans = LLONG_MIN;
-    for(int k = start;k<=end;k++){
- long long coins = (long long)nums[start - 1] * nums[k] * nums[end + 1];
-            coins += solve(nums, start, k - 1,dp) + solve(nums, k + 1, end, dp);
-            ans = max(ans, coins);
+    int ans = INT_MIN;
+    for(int i=si;i<=ei;i++){
+     int coins = nums[si-1]*nums[i]*nums[ei+1] + solve(nums,si,i-1,dp) + solve(nums,i+1,ei,dp);
+     ans = max(ans,coins);
     }
-    return dp[start][end]=ans;
+    return dp[si][ei]=ans;
    }
     int maxCoins(vector<int>& nums) {
-        nums.push_back(1);
-        nums.insert(nums.begin(), 1);
-         vector<vector<int>> dp(nums.size(), vector<int>(nums.size(), -1));
-       return solve(nums,1,nums.size()-2,dp);
+     nums.insert(nums.begin(), 1);  
+     nums.push_back(1);   
+     int n = nums.size();
+     vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
+     return solve(nums,1,n-2,dp);
     }
 };
