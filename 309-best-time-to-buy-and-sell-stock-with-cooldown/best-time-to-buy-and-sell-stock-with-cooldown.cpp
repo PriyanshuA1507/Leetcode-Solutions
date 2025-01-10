@@ -1,30 +1,28 @@
 class Solution {
 public:
-    int solve(int index, int buy, std::vector<int>& prices, std::vector<std::vector<int>>& dp) {
-        if (index >= prices.size())
-            return 0;
-
-        if (dp[index][buy] != -1)
-            return dp[index][buy];
-
-        int profit = 0;
-
-        if (buy) {
-            int buykaro = -prices[index] + solve(index + 1, 0, prices, dp);
-            int skipkaro = solve(index + 1, 1, prices, dp);
-            profit = std::max(buykaro, skipkaro);
-        } else {
-            int sellkaro = prices[index] + solve(index + 2, 1, prices, dp);
-            int skipkaro = solve(index + 1, 0, prices, dp);
-            profit = std::max(sellkaro, skipkaro);
+     int solve(vector<int>& prices,int index1,bool buy,vector<vector<int>>& dp){
+        if(index1>=prices.size()){
+         return 0;
         }
-
-        return dp[index][buy] = profit;
+        if(dp[index1][buy]!=-1){
+            return dp[index1][buy];
+        }
+      if(!buy){
+      int buykar = -prices[index1] + solve(prices,index1+1,true,dp);
+      int skipkar = solve(prices,index1+1,false,dp);
+      return dp[index1][buy] = max(buykar,skipkar);
+      }
+      if(buy){
+       int sellkar = prices[index1] + solve(prices,index1+2,false,dp);
+      int skipkar = solve(prices,index1+1,true,dp);
+      return dp[index1][buy] =  max(sellkar,skipkar);
+      }
+     return dp[index1][buy] = 0;
     }
 
     int maxProfit(std::vector<int>& prices) {
         int n = prices.size();
-        std::vector<std::vector<int>> dp(n, std::vector<int>(2, -1)); // Adjusted dimensions to [n][2]
-        return solve(0, 1, prices, dp);
+        std::vector<vector<int>> dp(n,vector<int>(2, -1)); 
+        return solve(prices,0,false,dp);
     }
 };
