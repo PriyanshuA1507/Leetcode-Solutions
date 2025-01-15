@@ -1,29 +1,32 @@
 class Solution {
 public:
-    bool checkbipatrite(vector<vector<int>>& graph,int node,vector<int>& color,int currcolor){
-    color[node]= currcolor;
-    for(int v: graph[node]){
-        if(color[v]==currcolor){
+    bool checkbypatrite(vector<vector<int>>& graph,int i,int cc,vector<int>& color){
+        color[i] = cc;
+        for(auto v:graph[i]){
+        if(color[v]==color[i]){
             return false;
         }
         if(color[v]==-1){
-        int colorofv = 1-currcolor;
-        if(checkbipatrite(graph,v,color,colorofv)==false)
+        int colorofv = 1 - cc;
+        if(checkbypatrite(graph,v,colorofv,color)==false){
             return false;
         }
-    }
-    return true;
+        }
+        }
+        return true;
+
     }
     bool isBipartite(vector<vector<int>>& graph) {
-    int v = graph.size();
-      vector<int> color(v,-1);
-      for(int i=0;i<v;i++){
-    if(color[i]==-1){
-        if(!checkbipatrite(graph,i,color,1)){
-         return false;
+        int n = graph.size();
+        vector<int> color(n,-1);
+        for(int i=0;i<n;i++){
+        if(color[i]==-1){
+        if(checkbypatrite(graph,i,1,color)==false){
+            return false;
         }
-    }
-      }
-      return true;
+        }
+        }
+        return true;
+
     }
 };
