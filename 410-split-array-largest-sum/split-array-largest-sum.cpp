@@ -1,46 +1,42 @@
 class Solution {
 public:
-    bool canwe(vector<int>& nums, int k,int mid){
-    int n = nums.size();
-    int ds = 1;
-    int sum = 0;
-    for(int i=0;i<n;i++){
-     if(sum+nums[i]>mid){
-        ds++;
-        sum=nums[i];
-        if(ds>k){
-            return false;
-        }
+     bool check(int mid,vector<int>& nums, int k){
+     int a = 1;
+     int sum=0;
+     for(int i=0;i<nums.size();i++){
+     if(nums[i]>mid){
+      return false;
      }
-        else{
-            sum+=nums[i];
-        }
+     if(sum+nums[i]>mid){
+     a++;
+     sum = nums[i];
+     if(a>k){
+        return false;
+     }
+     }else{
+    sum+=nums[i];
+     }
+     }
+     return true;
     }
-    return true;
-   } 
     int splitArray(vector<int>& nums, int k) {
-        int sum = 0;
-        int maxi = INT_MIN;
-
-        for (int i = 0; i < nums.size(); i++) {
-            maxi = max(maxi, nums[i]);
-            sum += nums[i];
-        }
-
-        int low = maxi;
-        int high = sum;
+        int start = *max_element(nums.begin(),nums.end());
+        int end = 0;
         int ans = 0;
-
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            if (canwe(nums, k, mid)) {
-                ans = mid;
-                high = mid - 1;
-            } else {
-                low = mid + 1;
-            }
+        for(auto a:nums){
+            end+=a;
         }
-
+        while(start<=end){
+        int mid = start + (end-start)/2;
+        if(check(mid,nums,k)){
+        ans = mid;
+        end = mid-1;
+        }
+        else{
+        start = mid+1;
+        }
+        }
         return ans;
+        
     }
 };
