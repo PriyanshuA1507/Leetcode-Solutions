@@ -25,7 +25,6 @@ public:
         }
         if(a==size-1)
         return true;
-
         return false;
     }
 };
