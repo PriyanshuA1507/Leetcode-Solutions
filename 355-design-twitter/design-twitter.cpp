@@ -1,44 +1,47 @@
 class Twitter {
 public:
-using p = pair<int,int>;
-int timestamp = 0;
- unordered_map<int,vector<p>>m;
-  unordered_map<int,unordered_set<int>>fl;
+ int timestamp = 0;
+ unordered_map<int,vector<pair<int,int>>> tweets;
+ unordered_map<int,unordered_set<int>> followers;
+    
     Twitter() {
         
     }
     
     void postTweet(int userId, int tweetId) {
-        m[userId].push_back({timestamp++,tweetId});
+        tweets[userId].push_back({timestamp++,tweetId}); 
     }
     
     vector<int> getNewsFeed(int userId) {
-        priority_queue<p> pq;
         vector<int> ans;
-        for(auto a:m[userId]){
-          pq.push(a);
-        }
-        for(auto a:fl[userId]){
-         for(auto b:m[a]){  
-          pq.push(b);
-         }
-        }
+        //first ->timestamp //second->tweetsid
+       priority_queue<pair<int,int>>pq;
+       for(auto a:tweets[userId]){
+       pq.push(a);
+       }
 
-         while (!pq.empty() && ans.size() < 10) {
-            ans.push_back(pq.top().second);
-            pq.pop();
-        }
-        return ans;
+       for(auto b:followers[userId]){
+       // b->followers laake de dega
+       for(auto c: tweets[b]){
+      pq.push(c);
+       }
+       }
+
+     while(ans.size()<10 && pq.size()!=0){
+     auto a = pq.top();
+     //second->tweets id
+     ans.push_back(a.second);
+     pq.pop();
+     }
+     return ans;
     }
-
+    
     void follow(int followerId, int followeeId) {
-      if (followerId != followeeId) {
-            fl[followerId].insert(followeeId);
-        }
+     followers[followerId].insert(followeeId);
     }
     
     void unfollow(int followerId, int followeeId) {
-        fl[followerId].erase(followeeId);
+      followers[followerId].erase(followeeId);
     }
 };
 
