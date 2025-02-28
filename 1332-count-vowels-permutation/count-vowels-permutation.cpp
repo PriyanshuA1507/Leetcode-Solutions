@@ -3,25 +3,25 @@ public:
     const int mod = 1e9 + 7;
 
     long long solve(int n, int index, char pc, vector<vector<long long>>& dp) {
-        if (index >= n) return 1;  // Base case: valid sequence formed
+        if (index >= n) return 1;  
 
         int c = (pc == 'a') ? 0 : 
                 (pc == 'e') ? 1 : 
                 (pc == 'i') ? 2 : 
                 (pc == 'o') ? 3 : 
-                (pc == 'u') ? 4 : -1; // 'b' is not stored in dp
+                (pc == 'u') ? 4 : -1;
 
         if (c != -1 && dp[index][c] != -1) return dp[index][c];
 
-        long long take = 0; // Use long long to prevent overflow
+        long long take = 0; 
 
-        if (pc == 'b') {  // Starting case, pick any vowel
+        if (pc == 'b') {  
             take = (solve(n, index + 1, 'a', dp) +
                     solve(n, index + 1, 'e', dp) +
                     solve(n, index + 1, 'i', dp) +
                     solve(n, index + 1, 'o', dp) +
                     solve(n, index + 1, 'u', dp)) % mod;
-            return take; // No need to store in dp
+            return take; 
         }
         else if (pc == 'a') {
             take = solve(n, index + 1, 'e', dp);
