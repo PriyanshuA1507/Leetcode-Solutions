@@ -11,40 +11,39 @@
 class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
-        if (head == NULL || k == 1) {
+        if (head == NULL) {
             return head;
         }
 
-        // Count the nodes
+        // Check if there are at least k nodes to reverse
         ListNode* temp = head;
         int count = 0;
-        while (temp && count < k) {
+        while (temp != NULL && count < k) {
             temp = temp->next;
             count++;
         }
 
-        // If we have at least k nodes, then we reverse
-        if (count == k) {
-            ListNode* prev = NULL;
-            ListNode* curr = head;
-            ListNode* next = NULL;
-            int i = 0;
-            
-            while (curr != NULL && i < k) {
-                next = curr->next;
-                curr->next = prev;
-                prev = curr;
-                curr = next;
-                i++;
-            }
-
-            // Recursively process the remaining list
-            head->next = reverseKGroup(curr, k);
-            
-            return prev; // New head of the reversed group
+        if (count < k) {
+            return head; // Not enough nodes, return as is
         }
 
-        // If there are fewer than k nodes left, return head as is (no reversal)
-        return head;
+        ListNode* next = NULL;
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+        count = 0;
+
+        while (curr != NULL && count < k) {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+            count++;
+        }
+
+        if (next != NULL) {
+            head->next = reverseKGroup(next, k);
+        }
+
+        return prev;
     }
 };
