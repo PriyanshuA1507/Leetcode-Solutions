@@ -9,8 +9,8 @@ public:
         }
     int minimizedMaximum(int n, vector<int>& quantities) {
         int start = 1;
-        int end = *max_element(quantities.begin(), quantities.end());
-        int ans = end;
+        int end = 1e8;
+        int ans =0;
         while(start<=end){
         int mid = start + (end-start)/2;
         if(check(n,quantities,mid)){
