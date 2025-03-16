@@ -27,7 +27,7 @@ public:
         currentPath.pop_back();  
     }
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
-     ans.clear(); 
+     
         vector<int> currentPath;
         dfs(root, targetSum, currentPath);
         return ans;
