@@ -24,7 +24,7 @@ public:
         dfs(root->left, targetSum - root->val, currentPath);
         dfs(root->right, targetSum - root->val, currentPath);
 
-        currentPath.pop_back();  // Backtrack
+        currentPath.pop_back();  
     }
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
      ans.clear(); 
