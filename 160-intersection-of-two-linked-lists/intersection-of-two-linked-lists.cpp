@@ -9,23 +9,15 @@
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-      if (headA == nullptr || headB == nullptr) {
-            return nullptr;
-        }
-        
-        ListNode *a = headA;
-        ListNode *b = headB;
-
-        // Traverse both lists. When reaching the end of one list, continue from the beginning of the other.
-        while (a != b) {
- // If `a` reaches the end of list A, switch it to the start of list B.
-            a = (a == nullptr) ? headB : a->next;
- // If `b` reaches the end of list B, switch it to the start of list A.
-            b = (b == nullptr) ? headA : b->next;
-        }
-
-      // If lists intersect, `a` and `b` will eventually meet at the intersection node.
-     // If no intersection, both `a` and `b` will reach nullptr simultaneously.
-        return a;
+     if(!headA || !headB){
+        return NULL;
+     }   
+     ListNode *t1 = headA;
+     ListNode *t2 = headB;
+     while(t1!=t2){
+      t1 = (t1 == NULL) ? headB : t1->next;
+      t2 = (t2 == NULL) ? headA : t2->next;
+     }
+    return t1;
     }
 };
