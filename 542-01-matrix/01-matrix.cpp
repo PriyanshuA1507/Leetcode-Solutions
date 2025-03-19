@@ -1,37 +1,34 @@
 class Solution {
 public:
-   vector<vector<int>> dirs = {{-1,0}, {0,1},{1,0},{0,-1}};
+   using p = pair<pair<int,int>,int>;
+   vector<vector<int>> dir = {{-1,0},{0,1},{1,0},{0,-1}};
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
-        int m = mat.size(), n = mat[0].size();
-        queue<pair<pair<int,int>,int>> q;
-        vector<vector<bool>> vis(m,vector<bool>(n,0));
-        vector<vector<int>> dist(m,vector<int>(n,0));
-        for(int i=0;i<m;i++){
-        for(int j=0;j<n;j++){
-         if(mat[i][j]==0){
-            q.push({{i,j},0});
-            vis[i][j] = 1;
-         }
-        }
-        }
-        while(q.size()!=0){
-        int size = q.size();
-        for(int i=0;i<size;i++){
-        auto a = q.front();
-        int dist1 = a.second;
-        dist[a.first.first][a.first.second] = a.second;
-        q.pop();
-        for(auto d:dirs){
-         int row = a.first.first +d[0];
-         int col = a.first.second +d[1];
+     queue<p> q;
+     vector<vector<int>> time(mat.size(),vector<int>(mat[0].size(),-1));
+     for(int i=0;i<mat.size();i++){
+    for(int j=0;j<mat[0].size();j++){
+    if(mat[i][j]==0){
+    q.push({{i,j},0});
+    time[i][j] = 0;
+    }
+    }
+     }
+     while(q.size()!=0){
+        int a = q.size();
+    for(int i=0;i<a;i++){
+    auto b = q.front();
+    q.pop();
+    for(auto d:dir){
+    int i = b.first.first + d[0];
+    int j = b.first.second + d[1];
 
-         if(row>=0 && col>=0 && row<m && col<n && !vis[row][col]){
-            vis[row][col] = 1;
-            q.push({{row,col},dist1+1});
-         }
-        }
-        }
-           }
-       return dist;
+    if(i>=0 && j>=0 && i<mat.size() && j<mat[0].size() && time[i][j]==-1){
+     time[i][j] = b.second + 1;
+    q.push({{i, j}, b.second + 1});
+    }
+    }
+    }
+     }
+     return time;   
     }
 };
