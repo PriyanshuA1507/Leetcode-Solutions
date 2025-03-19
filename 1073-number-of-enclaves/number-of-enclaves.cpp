@@ -1,47 +1,48 @@
 class Solution {
 public:
-     using p = pair<int,int>;
-     vector<vector<int>> dirs = {{-1,0}, {0,1},{1,0},{0,-1}};
+    using p = pair<int, int>;
+    vector<vector<int>> dir = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+    
     int numEnclaves(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
         queue<p> q;
-        int c =0;
-        int n = grid.size() ,m = grid[0].size();
-        for(int i=0;i<n;i++){
-        for(int j=0;j<m;j++){
-        if(grid[i][j]==1 &&(i==0 || j==0 || i==n-1 || j==m-1)){
-            q.push({i,j});
-            grid[i][j]=-1;
+
+        // Push all boundary cells with 1 into the queue
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if((i == 0 || i == m - 1 || j == 0 || j == n - 1) && grid[i][j] == 1){
+                    q.push({i, j});
+                    grid[i][j] = -1; // Mark as visited
+                }
+            }
         }
-        }
-        }
-        while(q.size()!=0){
-            int size = q.size();
-            for(int i=0;i<size;i++){
-            auto a = q.front();
+
+        // BFS traversal to mark all reachable '1's from the boundary
+        while(!q.empty()){
+            auto [x, y] = q.front();
             q.pop();
+            
+            for(auto d : dir){
+                int i = x + d[0];
+                int j = y + d[1];
 
-            for(auto d: dirs){
-            int r = a.first + d[0];
-            int c = a.second + d[1];
-
-            if(r>=0 && c>=0 && r<n && c<m && grid[r][c]==1){
-            grid[r][c] = -1;
-            q.push({r,c});
-            }
-            }
+                if(i >= 0 && j >= 0 && i < m && j < n && grid[i][j] == 1){
+                    q.push({i, j});
+                    grid[i][j] = -1; // Mark as visited
+                }
             }
         }
-            for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-            if(grid[i][j]==-1){
-                grid[i][j] = 1;
-            }
-            else if(grid[i][j]==1){
-                c++;
-            }
-            }
-            }
-            return c;
 
+        // Count remaining '1's that are not reachable from boundaries
+        int ans = 0;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(grid[i][j] == 1){
+                    ans++;
+                }
+            }
+        }
+        
+        return ans;
     }
 };
