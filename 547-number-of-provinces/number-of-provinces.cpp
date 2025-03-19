@@ -18,7 +18,7 @@ public:
         unordered_map<int,vector<int>> adj;
         for(int i=0;i<a.size();i++){
         for(int j=0;j<a[0].size();j++){
-         if(a[i][j]==1){
+         if(a[i][j]==1 && i!=j){
           adj[i].push_back(j);
           adj[j].push_back(i);
          }
