@@ -1,48 +1,42 @@
 class Solution {
 public:
-    using p = pair<int, int>;
-    vector<vector<int>> dir = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
-    
+ vector<vector<int>> dir = {{-1,0},{0,1},{1,0},{0,-1}};
+  using p = pair<int,int>;
     int numEnclaves(vector<vector<int>>& grid) {
-        int m = grid.size(), n = grid[0].size();
-        queue<p> q;
-
-        // Push all boundary cells with 1 into the queue
-        for(int i = 0; i < m; i++){
-            for(int j = 0; j < n; j++){
-                if((i == 0 || i == m - 1 || j == 0 || j == n - 1) && grid[i][j] == 1){
+          int m = grid.size(), n = grid[0].size();
+    queue<p> q;
+    for(int i=0;i<grid.size();i++){
+    for(int j=0;j<grid[0].size();j++){
+    if((i == 0 || i == m - 1 || j == 0 || j == n - 1) && grid[i][j] == 1){
                     q.push({i, j});
-                    grid[i][j] = -1; // Mark as visited
-                }
-            }
-        }
-
-        // BFS traversal to mark all reachable '1's from the boundary
-        while(!q.empty()){
-            auto [x, y] = q.front();
+                    grid[i][j] = -1;
+      }
+    }
+    }
+    
+   while(!q.empty()){
+            auto b = q.front();
             q.pop();
+            int x = b.first, y = b.second; 
             
             for(auto d : dir){
-                int i = x + d[0];
-                int j = y + d[1];
+                int ni = x + d[0];
+                int nj = y + d[1];
 
-                if(i >= 0 && j >= 0 && i < m && j < n && grid[i][j] == 1){
-                    q.push({i, j});
-                    grid[i][j] = -1; // Mark as visited
+                if(ni >= 0 && nj >= 0 && ni < m && nj < n && grid[ni][nj] == 1){
+                    q.push({ni, nj});
+                    grid[ni][nj] = -1; 
                 }
             }
         }
-
-        // Count remaining '1's that are not reachable from boundaries
-        int ans = 0;
-        for(int i = 0; i < m; i++){
-            for(int j = 0; j < n; j++){
-                if(grid[i][j] == 1){
-                    ans++;
-                }
-            }
-        }
-        
-        return ans;
+    int ans =0;
+    for(int i=0;i<grid.size();i++){
+    for(int j=0;j<grid[0].size();j++){
+     if(grid[i][j]==1){
+        ans++;
+     }
+    }
+    }
+    return ans;
     }
 };
