@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool canFinish(int nc, vector<vector<int>>& prerequisites) {
-        vector<int> indegree(nc,0);
+      vector<int> indegree(nc,0);
         unordered_map<int,vector<int>>adj;
         queue<int> q;
         for(auto a:prerequisites){
