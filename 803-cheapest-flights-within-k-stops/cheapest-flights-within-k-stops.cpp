@@ -1,48 +1,51 @@
 class Solution {
 public:
-    using p = tuple<int, int, int>;  // (current cost, current node, current stop count)
-
+  using p = pair<int,pair<int,int>>;
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        unordered_map<int, vector<pair<int, int>>> adj;
-        vector<vector<int>> result(n, vector<int>(k + 2, INT_MAX)); // Store min cost for each node with up to k stops
-
-        // Build adjacency list
-        for (auto& flight : flights) {
-            int u = flight[0], v = flight[1], w = flight[2];
-            adj[u].emplace_back(v, w);
+      unordered_map<int, vector<pair<int, int>>> adj;
+        
+        for (int i = 0; i < flights.size(); i++) {
+            int u = flights[i][0];
+            int v = flights[i][1];
+            int w = flights[i][2];
+            adj[u].push_back({v, w});
         }
-
-        priority_queue<p, vector<p>, greater<p>> pq;  // Min-heap based on cost
-        pq.push({0, src, 0});  // (cost, node, stops)
-        result[src][0] = 0;  // No cost to reach source node with 0 stops
-
-        while (!pq.empty()) {
-            auto [wt, node, k2] = pq.top();  // Access tuple elements using structured binding
-            pq.pop();
-
-            // If the destination is reached, return the cost
-            if (node == dst) return wt;
-
-            // Explore neighbors if we can still make stops
-            if (k2 <= k) {
-                for (auto& [nextNode, nextWeight] : adj[node]) {
-                    int newCost = wt + nextWeight;
-
-                    // Only push to the queue if we found a cheaper way to reach nextNode with k2 + 1 stops
-                    if (newCost < result[nextNode][k2 + 1]) {
-                        result[nextNode][k2 + 1] = newCost;
-                        pq.push({newCost, nextNode, k2 + 1});
-                    }
+        
+        priority_queue<p, vector<p>, greater<p>> q;
+        q.push({0, {src, 0}});
+        
+        // Track the minimum cost to reach each node with at most `k` stops
+        vector<vector<int>> result(n, vector<int>(k + 2, INT_MAX));
+        result[src][0] = 0;
+        
+        while (!q.empty()) {
+            auto current = q.top();
+            q.pop();
+            
+            int currCost = current.first;
+            int node = current.second.first;
+            int stops = current.second.second;
+            
+            // If we reached the destination, return the cost
+            if (node == dst) return currCost;
+            
+            // If we have used up all stops, continue
+            if (stops > k) continue;
+            
+            // Explore all the neighbors of the current node
+            for (auto& neighbor : adj[node]) {
+                int nextNode = neighbor.first;
+                int nextCost = neighbor.second;
+                
+                // If a cheaper path is found, push it to the queue
+                if (currCost + nextCost < result[nextNode][stops + 1]) {
+                    result[nextNode][stops + 1] = currCost + nextCost;
+                    q.push({currCost + nextCost, {nextNode, stops + 1}});
                 }
             }
         }
-
-        // Find the minimum cost to reach dst with any number of stops up to k
-        int minCost = INT_MAX;
-        for (int i = 0; i <= k + 1; ++i) {
-            minCost = min(minCost, result[dst][i]);
-        }
-
-        return minCost == INT_MAX ? -1 : minCost;  // Return -1 if no valid route found
+        
+        // If we can't reach the destination
+        return -1;
     }
 };
