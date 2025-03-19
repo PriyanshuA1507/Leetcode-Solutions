@@ -1,56 +1,49 @@
 class Solution {
 public:
-    int findparent(int x,vector<int>& parent){
-        if(x==parent[x]){
-            return x;
-        }
-        return parent[x]=findparent(parent[x],parent);
-    }
-     void findunion(int x, int y, vector<int>& rank, vector<int>& parent) {
-        int x_parent = findparent(x, parent);
-        int y_parent = findparent(y, parent);
+   void dfs(int u, vector<vector<int>>& adj, vector<bool>& visited) {
+       stack<int> st;
+       st.push(u);
+       
+       while (!st.empty()) {
+           int node = st.top();
+           st.pop();
+           
+           if (visited[node]) continue;
+           visited[node] = true;
 
-        if (x_parent != y_parent) {
-            if (rank[x_parent] > rank[y_parent]) {
-                parent[y_parent] = x_parent;
-            } else if (rank[x_parent] < rank[y_parent]) {
-                parent[x_parent] = y_parent;
-            } else {
-                parent[y_parent] = x_parent;
-                rank[x_parent]++;
-            }
-        }
-    }
-    int makeConnected(int n, vector<vector<int>>& connections) {
-        if (connections.size() < n - 1) {
-            return -1; 
-        }
-    vector<int> parent(n);
-    vector<int> rank(n,0);
-    for(int i=0;i<n;i++){
-        parent[i] = i;
-    }
-    int redundant = 0;
-    for(auto& a:connections){
-    if(findparent(a[0],parent)==findparent(a[1],parent)){
-        redundant++;
-    }
-    else{
-        findunion(a[0],a[1],rank,parent);
-    }
-    }
-    int components = 0;
-    for(int i=0;i<n;i++){
-    if(findparent(i,parent)==i){
-        components++;
-    }
-    }
-    if(redundant>=components-1){
-        return components-1;
-    }
-    else{
-        return -1;
-    }
+           for (int v : adj[node]) {
+               if (!visited[v]) {
+                   st.push(v);
+               }
+           }
+       }
+   }
 
-    }
+   int makeConnected(int n, vector<vector<int>>& connections) {
+       if (connections.size() < n - 1) {
+           return -1;  // Not enough cables to connect all computers
+       }
+
+       // Graph representation using an adjacency list
+       vector<vector<int>> adj(n);
+       
+       for (const auto& conn : connections) {
+           int u = conn[0];
+           int v = conn[1];
+           adj[u].push_back(v);
+           adj[v].push_back(u);
+       }
+
+       vector<bool> visited(n, false);
+       int count = 0;
+
+       for (int i = 0; i < n; ++i) {
+           if (!visited[i]) {
+               count++;
+               dfs(i, adj, visited);
+           }
+       }
+
+       return count - 1;  // Minimum operations required
+   }
 };
