@@ -1,24 +1,24 @@
 class Solution {
 public:
-   int solve(vector<vector<int>>& triangle,int index,int ci,vector<vector<int>>& dp){
-    if(index>=triangle.size()){
-        return 0;
+    int solve(vector<vector<int>>& triangle,int si,int sj,int n,vector<vector<int>>& dp){
+    if(si==n-1 ){
+        return triangle[si][sj];
     }
-    if(dp[index][ci]!=-1){
-        return dp[index][ci];
+    if(dp[si][sj]!=-1){
+        return dp[si][sj];
     }
-    int o1 = INT_MAX, o2 = INT_MAX;
-    if(ci<triangle[index].size()){
-    o1  = triangle[index][ci] + solve(triangle,index+1,ci,dp);
+    int one = INT_MAX, second = INT_MAX;
+    if(si==0 || si+1<n ){
+    one = triangle[si][sj] + solve(triangle,si+1,sj,n,dp);
     }
-    if(ci+1<triangle[index].size()){
-    o2  = triangle[index][ci+1] + solve(triangle,index+1,ci+1,dp);
+    if(si==0 || si+1<n ){
+    second = triangle[si][sj] + solve(triangle,si+1,sj+1,n,dp);
     }
-    return dp[index][ci]=min(o1,o2);
-   }
+    return dp[si][sj]=min({one,second});
+    }
     int minimumTotal(vector<vector<int>>& triangle) {
-       vector<vector<int>> dp(201, vector<int>(201,-1));
-        return solve(triangle,0,0,dp);
-        
+    int n = triangle.size();
+    vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
+    return solve(triangle,0,0,n,dp);
     }
 };
