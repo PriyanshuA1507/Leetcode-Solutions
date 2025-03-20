@@ -1,32 +1,32 @@
 class Solution {
 public:
-    bool search(vector<int>& nums, int target) {
-        int n = nums.size();
+    bool search(vector<int>& arr, int target) {
+        int n = arr.size();
         int start = 0;
         int end = n-1;
         while(start<=end){
         int mid = start + (end-start)/2;
-        if(nums[mid]==target){
-         return true;
+        if(arr[mid]==target){
+            return true;
         }
-        if(nums[start]==nums[mid] && nums[mid]==nums[end]){
+        if(arr[start]==arr[mid] && arr[mid]==arr[end]){
         start++;
         end--;
         }
-        else if(nums[start]<=nums[mid]){
-         if(nums[start]<=target && target<=nums[mid]){
-         end = mid-1;
+        else if(arr[start]<=arr[mid]){
+         if(target>=arr[start] && target<=arr[mid]){
+        end = mid-1;
          }
          else{
-          start = mid+1;
+            start = mid+1;
          }
         }
-        else{
-        if(nums[mid]<=target && target<=nums[end]){
+        else if(arr[start]>=arr[mid]){
+        if(arr[mid]<=target && target<=arr[end]){
          start = mid+1;
         }
         else{
-        end = mid - 1;
+            end = mid-1;
         }
         }
         }
