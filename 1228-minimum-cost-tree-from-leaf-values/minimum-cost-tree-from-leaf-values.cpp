@@ -1,28 +1,29 @@
 class Solution {
 public:
-    int solve(vector<int>& arr,map<pair<int,int>,int>& maxi,int left,int right,vector<vector<int>>& dp){
-        if(left==right){
-            return 0;
-        }
-        if(dp[left][right]!=-1){
-            return dp[left][right];
-        }
+    vector<vector<int>> dp;  
+
+    int solve(vector<int>& arr, int start, int end) {
+        if (start >= end) return 0; 
+        
+        if (dp[start][end] != -1) return dp[start][end]; 
+        
         int ans = INT_MAX;
-        for(int i = left;i<right;i++){
-        ans = min(ans,maxi[{left,i}]*maxi[{i+1,right}]+solve(arr,maxi,left,i,dp)+solve(arr,maxi,i+1,right,dp));
+        for (int i = start; i < end; i++) {
+            int leftCost = solve(arr, start, i);
+            int rightCost = solve(arr, i + 1, end);
+            int maxLeft = *max_element(arr.begin() + start, arr.begin() + i + 1);
+            int maxRight = *max_element(arr.begin() + i + 1, arr.begin() + end + 1);
+            
+            int tempCost = leftCost + rightCost + maxLeft * maxRight;
+            ans = min(ans, tempCost);
         }
-        return dp[left][right]=ans;
+
+        return dp[start][end] = ans; 
     }
+
     int mctFromLeafValues(vector<int>& arr) {
         int n = arr.size();
-        map<pair<int,int>,int> maxi;
-        vector<vector<int>> dp(n+1, vector<int>(n+1,-1));
-        for(int i=0;i<arr.size();i++){
-        maxi[{i,i}]=arr[i];
-        for(int j=i+1;j<arr.size();j++){
-         maxi[{i,j}] = max(arr[j], maxi[{i,j-1}]);
-        }
-        }
-        return solve(arr,maxi,0,arr.size()-1,dp);
+        dp.assign(n, vector<int>(n, -1)); 
+        return solve(arr, 0, n - 1); 
     }
 };
