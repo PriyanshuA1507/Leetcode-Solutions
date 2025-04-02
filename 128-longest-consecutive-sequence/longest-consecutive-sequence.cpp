@@ -1,11 +1,7 @@
-#include <unordered_set>
-#include <vector>
-using namespace std;
-
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
-        unordered_set<int> s(nums.begin(), nums.end());
+     unordered_set<int> s(nums.begin(), nums.end());
         int longest = 0;
 
         for (int num : s) {
