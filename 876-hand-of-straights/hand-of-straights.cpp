@@ -1,26 +1,28 @@
 class Solution {
 public:
-    bool isNStraightHand(vector<int>& nums, int k) {
-       int n = nums.size();
-        sort(nums.begin(),nums.end());
-        unordered_map<int,int>m;
-        if(nums.size()%k!=0){
-            return false;
-        }
-        for(int i=0;i<nums.size();i++){
-        m[nums[i]]++;
-    }
-        for(int i=0;i<n;i++){
-         if(m[nums[i]]<=0){
-            continue;
-         }
-         for(int j = nums[i];j<nums[i]+k;j++){
-            if(m[j]<=0){
-                return false;
-            }
-            m[j]--;
-         }
-        }
-        return true; 
+    bool isNStraightHand(vector<int>& hand, int gs) {
+    priority_queue<int,vector<int>,greater<int>>pq;
+     if(hand.size()%gs!=0){
+        return false;
+     }
+     unordered_map<int,int>m;
+     for(auto a:hand){
+        pq.push(a);
+        m[a]++;
+     }
+     while(pq.size()!=0){
+       int start = pq.top();
+        pq.pop();
+      if(m[start]==0){
+       continue;
+      }
+      for(int i=0;i<gs;i++){
+      if(m[start+i]<=0){
+        return false;
+      }
+      m[start+i]--;
+      }
+     }
+     return true;
     }
 };
