@@ -1,40 +1,49 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
-        map<int, map<int, vector<int>>> nodes; // To store nodes by horizontal and level order
-        queue<pair<TreeNode*, pair<int, int>>> q; // Queue for BFS traversal
-        
-        q.push(make_pair(root, make_pair(0, 0))); // Push root with horizontal distance and level
-        
-        while (!q.empty()) {
-            auto temp = q.front(); 
-            q.pop(); // Pop the front element
-            
-            TreeNode* frontNode = temp.first;
-            int hd = temp.second.first; // Horizontal distance
-            int lvl = temp.second.second; // Level
-            
-            nodes[hd][lvl].push_back(frontNode->val); // Insert into map
-            
-            if (frontNode->left) {
-                q.push(make_pair(frontNode->left, make_pair(hd - 1, lvl + 1))); // Push left child
-            }
-            if (frontNode->right) {
-                q.push(make_pair(frontNode->right, make_pair(hd + 1, lvl + 1))); // Push right child
-            }
-        }
-        
-        vector<vector<int>> ans; // Final answer
-        
-        for (auto& p : nodes) {
-            vector<int> col; // To store values in one vertical line
-            for (auto& q : p.second) {
-                sort(q.second.begin(), q.second.end()); // Sort values at the same level
-                col.insert(col.end(), q.second.begin(), q.second.end()); // Merge into column
-            }
-            ans.push_back(col); // Add column to result
-        }
-        
+        vector<vector<int>> ans;
+      map<int ,map<int,vector<int>>>nodes;
+      queue<pair<TreeNode*,pair<int,int>>>q;
+      if(!root){
         return ans;
+      }
+      q.push(make_pair(root,make_pair(0,0)));
+      while(!q.empty()){
+       auto a = q.front();
+       q.pop();
+       TreeNode* frontnode = a.first;
+       int hd = a.second.first;
+       int lvl = a.second.second;
+
+       nodes[hd][lvl].push_back(frontnode->val);
+       if(frontnode->left){
+      q.push(make_pair(frontnode->left,make_pair(hd-1,lvl+1)));
+       }
+        if(frontnode->right){
+      q.push(make_pair(frontnode->right,make_pair(hd+1,lvl+1)));
+       }
+    }
+
+  for (auto i : nodes) {
+            vector<int> col;
+            for (auto j : i.second) {
+                sort(j.second.begin(), j.second.end());  
+                col.insert(col.end(), j.second.begin(), j.second.end());
+            }
+            ans.push_back(col);
+        }
+
+    return ans;
     }
 };
