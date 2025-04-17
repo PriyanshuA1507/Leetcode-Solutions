@@ -1,27 +1,28 @@
 class Solution {
 public:
-    int solve(vector<int>& nums, int k){
-    int start = 0;
-    int end = 0;
-    int ans = 0;
-    int oc=0;
-    while(end<nums.size()){ 
-     if(nums[end]%2==1){
-     oc++;
+     int solve(vector<int>& nums, int k){
+    int i = 0, j =0;
+    int oc = 0;
+    int ans =0;
+    while(j<nums.size()){
+    if(nums[j]%2!=0){
+        oc++;
     }
 
+    if(oc>k){
     while(oc>k){
-    if(nums[start]%2==1){
-      oc--;
+    if(nums[i]%2!=0){
+    oc--;
     }
-    start++;
+    i++;
     }
-    ans+=(end-start+1);
-    end++;
+    }
+    ans += (j-i+1);
+    j++;
     }
     return ans;
-    }
+     }
     int numberOfSubarrays(vector<int>& nums, int k) {
-       return solve(nums,k) - solve(nums,k-1); 
+        return solve(nums,k)- solve(nums,k-1);
     }
 };
