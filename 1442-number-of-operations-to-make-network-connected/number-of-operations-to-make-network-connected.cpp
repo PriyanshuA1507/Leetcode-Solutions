@@ -21,10 +21,10 @@ public:
 
    int makeConnected(int n, vector<vector<int>>& connections) {
        if (connections.size() < n - 1) {
-           return -1;  // Not enough cables to connect all computers
+           return -1;  
        }
 
-       // Graph representation using an adjacency list
+     
        vector<vector<int>> adj(n);
        
        for (const auto& conn : connections) {
@@ -44,6 +44,6 @@ public:
            }
        }
 
-       return count - 1;  // Minimum operations required
+       return count - 1;  
    }
 };
