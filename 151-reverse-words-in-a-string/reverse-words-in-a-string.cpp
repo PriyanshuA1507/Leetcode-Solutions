@@ -1,26 +1,48 @@
 class Solution {
 public:
-     void reverse2(stack<int>& s1, string& a){
-     while(s1.size()!=0){
-     a.push_back(s1.top());
-     s1.pop();
-     }
-     a.push_back(' ');
-     }
+    string uppercahalo(string a){
+        string ans = "";
+        stack<char> b;
+        for(auto s:a){
+         b.push(s);
+        }
+        while(b.size()!=0){
+            ans+=b.top();
+            b.pop();
+        }
+      return ans;
+    }
     string reverseWords(string s) {
-        string a;
-        stack<int> s1;
+     string ans = "";
+     string a= "";
      reverse(s.begin(),s.end());
-     for(int i=0;i<s.size();i++){
-     while(i<s.size()&& s[i]!=' '){
-     s1.push(s[i]);
-     i++;
+     
+     int end = 0;
+     while(end<s.size()){
+        if(s[end] != ' ') {
+        a.push_back(s[end]);
+        end++;
+      }
+      else{
+       string b = uppercahalo(a);
+       if(b!=""){
+        ans+=b;
+        ans+=" ";
+       }
+      end++;
+     
+      a = "";
+      }
      }
-     if(s1.size()!=0){
-     reverse2(s1,a);
+     if(a.size()!=0){
+      string b = uppercahalo(a); 
+      ans+=b; 
      }
-     }
-     a.pop_back();
-     return a; 
+     while (!ans.empty() && ans.back() == ' ') {
+            ans.pop_back();
+        }
+        
+
+     return ans;   
     }
 };
