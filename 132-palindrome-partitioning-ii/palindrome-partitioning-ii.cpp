@@ -1,34 +1,32 @@
 class Solution {
 public:
-   bool ispalin(int i,int j,string& s){
+    bool isp(int i,int j,string& s){
     while(i<j){
-    if(s[i]!=s[j]){
-        return false;
-    }
+    if(s[i]!=s[j]) return false;
     i++;
     j--;
     }
     return true;
-   }
-   int mp(string& s,int start,int n, vector<int>& dp){
-    if(start>=n){
+    }
+    int solve(string& s,int start,int end,vector<int>& dp){
+     if(start>=end){
         return 0;
-    }
-    if(dp[start]!=-1){
-        return dp[start];
-    }
-    int mc = 1e8;
-    for(int i=start;i<n;i++){
-     if(ispalin(start,i,s)){
-     int cost = 1 + mp(s,i+1,n,dp);
-     mc = min(cost,mc);
      }
+     if(dp[start]!=-1){
+        return dp[start];
+     }
+     int mc = 1e8;
+     for(int i=start;i<end;i++){
+     if(isp(start,i,s)){
+    int cost = 1 + solve(s,i+1,end,dp);
+    mc = min(mc,cost);
+     }
+     }
+     return dp[start]=mc;
     }
-    return dp[start]=mc;
-   }
     int minCut(string s) {
-        int n = s.size();
-        vector<int> dp(n+1,-1);
-    return mp(s,0,s.size(),dp)-1;
+    int n = s.size();
+    vector<int> dp(n,-1);
+    return solve(s,0,s.size(),dp)-1;
     }
 };
