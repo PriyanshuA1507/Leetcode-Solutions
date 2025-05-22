@@ -1,36 +1,29 @@
 class Solution {
-    bool check(string s){
-        int n = s.size() - 1;
-        if((s[0] == 'a' || s[0] == 'e' || s[0] == 'i' || s[0] == 'o' || s[0] == 'u') && 
-                (s[n] == 'a' || s[n] == 'e' || s[n] == 'i' || s[n] == 'o' || s[n] == 'u'))
-        { 
-            return true;
-        }
-        return false;
-    }
-  
 public:
-    std::vector<int> vowelStrings(std::vector<std::string>& words, std::vector<std::vector<int>>& queries) {
-        std::vector<int> a(words.size(), 0); 
-        for(int i = 0; i < words.size(); i++){
-            if(check(words[i])){
-                a[i] = 1;
-            }
+    vector<int> vowelStrings(vector<string>& words, vector<vector<int>>& queries) {
+        int n = words.size();
+        vector<int> ps(n, 0);
+
+        // Declare the lambda correctly using auto
+        auto isVowel = [](char c) {
+            return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+        };
+
+        for (int i = 0; i < n; i++) {
+            string a = words[i];
+            char s = a[0];
+            char e = a[a.size() - 1];
+            int val = isVowel(s) && isVowel(e) ? 1 : 0;
+            ps[i] = (i > 0 ? ps[i - 1] : 0) + val;
         }
-      
-        for(int i=1;i<a.size();i++){
-            a[i]=a[i]+a[i-1];
+
+        vector<int> ans;
+        for (auto a : queries) {
+            int l = a[0];
+            int r = a[1];
+            ans.push_back(ps[r] - (l > 0 ? ps[l - 1] : 0));
         }
-       vector<int>ans;
-        for(int i=0;i<queries.size();i++){
-            int r=queries[i][1];
-            int l=queries[i][0];
-            if(l>0){
-                ans.push_back(a[r]-a[l-1]);
-            }else{
-                ans.push_back(a[r]);
-            }
-        }
+
         return ans;
     }
 };
