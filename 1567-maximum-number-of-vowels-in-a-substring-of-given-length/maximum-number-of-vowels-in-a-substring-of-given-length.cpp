@@ -1,27 +1,28 @@
 class Solution {
 public:
     int maxVowels(string s, int k) {
+        int ans = -1e8;
+        int oc = 0;
         int start = 0;
         int end = 0;
-        int ans = 0;
-        int cv = 0;
-        unordered_set<char> v = {'a', 'e', 'i', 'o', 'u'};
-
-        while (end < s.size()) {
-            if(v.count(s[end])){
-            cv++;
-           }
-           if (end == start+k-1) {
-            
-                ans = max(ans, cv);
-                if (v.count(s[start])) {
-                    cv--;
-                }
-                start++;
-            }
-            end++;
+        while(end<s.size()){
+         if(s[end]=='a' || s[end]=='e' || s[end]=='i' || s[end]=='o' || s[end]=='u'){
+          oc++;
+         }
+         if(end-start+1==k){
+         ans = max(ans,oc);
+         }
+         if(end-start+1>k){
+         while(end-start+1>k){
+          if(s[start]=='a' || s[start]=='e' || s[start]=='i' || s[start]=='o' || s[start]=='u'){
+            oc--;
+          }
+          start++;
+         }
+         }
+         ans = max(ans,oc);
+         end++;
         }
-
         return ans;
     }
 };
