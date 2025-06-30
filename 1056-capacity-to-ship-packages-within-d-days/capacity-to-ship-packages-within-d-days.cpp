@@ -1,26 +1,24 @@
 class Solution {
 public:
-    bool possible(vector<int>& weights, int days,int m){
-        long long ans = 1;
-        int cw=0;
-        for(int i=0;i<weights.size();i++){
-            if(cw+weights[i]>m){
-               ans++;
-               cw = weights[i];
-               if(ans>days){
-                return false;
-               }
-            }
-             else{
-                cw+=weights[i];
-               }
+    bool possible(vector<int>& weights, int days,int mid){
+        int a = 1;
+        int c = 0;
+        for(auto d:weights){
+        if(c+d>mid){
+            a++;
+            c = d;
         }
-        return true;
+        else{
+            c+=d;
+        }
+        }
+        return a<=days;
     }
     int shipWithinDays(vector<int>& weights, int days) {
-        int start = *max_element(weights.begin(), weights.end());
+        int start = 0;
         long long end = 0;
         for(int i=0;i<weights.size();i++){
+             start = max(start, weights[i]);
             end+=weights[i];
         }
         int ans = 0;
