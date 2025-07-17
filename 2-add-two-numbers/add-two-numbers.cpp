@@ -10,21 +10,8 @@
  */
 class Solution {
 public:
-    ListNode* reversen(ListNode* l1){
-        ListNode* curr = l1;
-        ListNode* prev = NULL;
-        ListNode* next = NULL;
-
-        while(curr){
-            next = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = next;
-        }
-        return prev;
-    }
-
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+   
+ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
     
 
         ListNode* prev = new ListNode(0);  
