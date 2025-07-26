@@ -1,9 +1,9 @@
 class Solution {
 public:
-class DisjointSet {
 
-public:
+   class DisjointSet {
     vector<int> rank, parent, size;
+public:
     DisjointSet(int n) {
         rank.resize(n + 1, 0);
         parent.resize(n + 1);
@@ -49,22 +49,28 @@ public:
             size[ulp_u] += size[ulp_v];
         }
     }
+      int countcomponents(int n) {
+            int count = 0;
+            for (int i = 0; i < n; i++) {
+                if (findUPar(i) == i) count++;
+            }
+            return count;
+        }
 };
-    int removeStones(vector<vector<int>>& stones) {
-    int n = stones.size();
-    DisjointSet ds(n);
 
-    for(int i=0;i<n;i++){
-    for(int j=0;j<n;j++){
-    if(stones[i][0]==stones[j][0] || stones[i][1]==stones[j][1]){
-     ds.unionBySize(i,j);
-    }
-    }
-    }
-    int g = 0;
-    for(int i=0;i<n;i++){
-    if(ds.parent[i]==i) g++;
-    }
-    return n - g;
+    int removeStones(vector<vector<int>>& stones) {
+       int n = stones.size();
+       DisjointSet dsu(n);
+       for(int i=0;i<n;i++){
+      int row = stones[i][0], col = stones[i][1];
+      for(int j=i+1;j<n;j++){
+      int nr = stones[j][0], nc = stones[j][1];
+      if(nr==row || nc == col){
+       dsu.unionBySize(i,j);
+      }
+      }
+       }
+     int c = dsu.countcomponents(n);
+     return n - c;
     }
 };
