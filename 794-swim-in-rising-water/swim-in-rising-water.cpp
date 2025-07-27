@@ -1,31 +1,35 @@
 class Solution {
 public:
-    using p = pair<int, pair<int, int>>; 
+   using p = pair<int,pair<int,int>>;
+   vector<vector<int>> dir = {{-1,0},{0,1},{1,0},{0,-1}};
     int swimInWater(vector<vector<int>>& grid) {
-        int n = grid.size();
-        vector<vector<int>> vis(n, vector<int>(n, INT_MAX));
-        priority_queue<p, vector<p>, greater<p>> pq; 
-        pq.push({grid[0][0], {0, 0}});
-        int ans = grid[0][0];
-        
-        vector<vector<int>> dir = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}}; 
-        while (!pq.empty()) {
-            auto a = pq.top();
-            pq.pop();
-            ans = max(ans, a.first); 
-            if (a.second.first == n - 1 && a.second.second == n - 1) {
-                return ans;
-            }
-            
-            for (auto d : dir) {
-                int r = a.second.first + d[0];
-                int c = a.second.second + d[1];
-                if (r >= 0 && c >= 0 && r < n && c < n && vis[r][c] > max(grid[r][c], a.first)) {
-                    vis[r][c] = max(grid[r][c], a.first);
-                    pq.push({grid[r][c], {r, c}});
-                }
-            }
-        }
-        return 0; 
+    int n = grid.size();
+    vector<vector<bool>> vis(n,vector<bool>(n,false));
+   
+    int ans = -1e8;
+   //  vector<vector<int>> ans(n,vector<int>(n,1e8));
+     priority_queue<p,vector<p>,greater<p>> pq;
+     pq.push({grid[0][0],{0,0}}); 
+     vis[0][0] = true;
+     while(pq.size()!=0){
+     auto a = pq.top();
+     int x = a.second.first;
+     int y = a.second.second;
+     int value = a.first;
+     ans = max(ans,value);
+     pq.pop();
+     if(x==n-1 && y==n-1){
+        return ans;
+     }
+     for(auto d:dir){
+    int newx = x + d[0];
+    int newy = y + d[1];
+    if(newx>=0 && newy>=0 && newx<n && newy<n && !vis[newx][newy]){
+    pq.push({grid[newx][newy],{newx,newy}});
+    vis[newx][newy] = true;
+    }
+     }
+     }
+     return 1e8;
     }
 };
