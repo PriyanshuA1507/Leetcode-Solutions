@@ -3,19 +3,19 @@ public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
         sort(intervals.begin(),intervals.end());
         vector<vector<int>> ans;
-        int s = intervals[0][0];
-        int e = intervals[0][1];
+        int start = intervals[0][0];
+        int end = intervals[0][1];
         for(int i=1;i<intervals.size();i++){
-            if(intervals[i][0]<=e){
-                e = max(e,intervals[i][1]);
-            }
-            else{
-            ans.push_back({s,e});
-             s = intervals[i][0];
-            e = intervals[i][1];
-            }
+        if(end>=intervals[i][0]){
+        end = max(end,intervals[i][1]);
         }
-        ans.push_back({s,e});
+        else{
+        ans.push_back({start,end});
+        start = intervals[i][0];
+        end = intervals[i][1];
+        }
+        }
+         ans.push_back({start,end});
         return ans;
     }
 };
