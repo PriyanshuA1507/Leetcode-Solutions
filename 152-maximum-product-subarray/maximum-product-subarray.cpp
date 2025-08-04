@@ -1,23 +1,24 @@
 class Solution {
 public:
     int maxProduct(vector<int>& nums) {
-      int maxi = -1e8;
-      int prod = 1;
-      for(int i=0;i<nums.size();i++){
-    prod*=nums[i];
-    maxi = max(maxi,prod);
-    if(prod==0){
-    prod = 1;
+    int maxp = -1e8;
+    int p = 1;
+    for(auto a:nums){
+    p*=a;
+    maxp = max(p,maxp);
+    if(p==0){
+    p = 1;
     }
-      }
-      prod= 1; 
-      for(int i=nums.size()-1;i>=0;i--){
-    prod*=nums[i];
-    maxi = max(maxi,prod);
-    if(prod==0){
-    prod = 1;
     }
-      }
-      return maxi;  
+
+    p = 1;
+    for(int i= nums.size()-1;i>=0;i--){
+     p*=nums[i];
+     maxp = max(maxp,p);
+     if(p==0){
+     p = 1;
+     }
+    }
+    return maxp;
     }
 };
