@@ -1,32 +1,37 @@
 class Solution {
 public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
-        map<int, map<int, multiset<int>>> nodes;
+        map<int, map<int, vector<int>>> node;  // hd -> lvl -> nodes
         queue<pair<TreeNode*, pair<int, int>>> q;
         vector<vector<int>> ans;
 
         if (!root) return ans;
 
-        q.push({root, {0, 0}});  // {node, {horizontal distance, level}}
-
+        // BFS traversal with hd and lvl tracking
+        q.push({root, {0, 0}});
         while (!q.empty()) {
             auto temp = q.front();
             q.pop();
 
-            TreeNode* node = temp.first;
+            TreeNode* frontNode = temp.first;
             int hd = temp.second.first;
             int lvl = temp.second.second;
 
-            nodes[hd][lvl].insert(node->val);
+            node[hd][lvl].push_back(frontNode->val);
 
-            if (node->left) q.push({node->left, {hd - 1, lvl + 1}});
-            if (node->right) q.push({node->right, {hd + 1, lvl + 1}});
+            if (frontNode->left)
+                q.push({frontNode->left, {hd - 1, lvl + 1}});
+            if (frontNode->right)
+                q.push({frontNode->right, {hd + 1, lvl + 1}});
         }
 
-        for (auto& p : nodes) {
+        // Build the final answer
+        for (auto i : node) {
             vector<int> col;
-            for (auto& q : p.second) {
-                col.insert(col.end(), q.second.begin(), q.second.end());
+            for (auto j : i.second) {
+                vector<int> temp = j.second;
+                sort(temp.begin(), temp.end());  // Sort same-level nodes
+                col.insert(col.end(), temp.begin(), temp.end());
             }
             ans.push_back(col);
         }
