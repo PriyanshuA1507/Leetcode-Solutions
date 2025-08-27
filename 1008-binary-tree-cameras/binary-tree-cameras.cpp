@@ -9,7 +9,8 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+
+    class Solution {
 public:
   int solve(TreeNode* root,int &cnt){
         if(root==NULL) return 1;
