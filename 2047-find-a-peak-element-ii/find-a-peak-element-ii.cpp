@@ -1,40 +1,36 @@
 class Solution {
 public:
-    bool possible(int a,vector<vector<int>>& mat,int r,int c){
-        int rows = mat.size();
-        int cols = mat[0].size();
-        
-        if (r + 1 < rows && mat[r + 1][c] >= a) {
-            return false;
-        }
-        if (r - 1 >= 0 && mat[r - 1][c] >= a) {
-            return false;
-        }
-        if (c + 1 < cols && mat[r][c + 1] >= a) {
-            return false;
-        }
-        if (c - 1 >= 0 && mat[r][c - 1] >= a) {
-            return false;
-        }
-        
-        return true;
+int findmaxindex(vector<vector<int>>& mat,int n,int m,int col){
+    int maxvalue = -1;
+    int index = -1;
+    for(int i=0;i<n;i++){
+    if(mat[i][col] > maxvalue){
+    maxvalue = mat[i][col];
+    index = i;
     }
+    }
+    return index;
+}
     vector<int> findPeakGrid(vector<vector<int>>& mat) {
-        vector<int> ans;
-        bool a = true;
-        for(int i=0;i<mat.size();i++){
-            for(int j=0;j<mat[0].size();j++){
-                if(possible(mat[i][j],mat, i, j)){
-                 ans.push_back(i);
-                ans.push_back(j);
-                a= false;
-                 break;
-                }
-            }
-            if(!a){
-                break;
-            }
-        }
-        return ans;
+      int n = mat.size(), m = mat[0].size();
+      int low = 0, high = m-1;
+      while(low<=high){
+    int mid = low + (high - low)/2;
+     int maxrowindex = findmaxindex(mat,n,m,mid);
+     int left = mid-1 >= 0 ? mat[maxrowindex][mid-1] : -1;
+     int right = mid+1 < m ? mat[maxrowindex][mid+1] : -1;
+
+     if(mat[maxrowindex][mid] > left && mat[maxrowindex][mid] > right){
+        return {maxrowindex,mid};
+     }
+     else if(mat[maxrowindex][mid]<left){
+        high = mid - 1;
+     }
+     else{
+      low = mid + 1;
+     }
+      }
+      return {-1,-1};
     }
+
 };
